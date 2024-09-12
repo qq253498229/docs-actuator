@@ -1,0 +1,29 @@
+= Actuator REST API
+
+This API documentation describes Spring Boot Actuators web endpoints.
+
+Before you proceed, you should read the following topics:
+
+* URLs
+* Timestamps
+
+NOTE: In order to get the correct JSON responses documented below, Jackson must be available.
+
+== URLs
+
+By default, all web endpoints are available beneath the path `/actuator` with URLs of the form `/actuator/{id}`.
+The `/actuator` base path can be configured by using the `management.endpoints.web.base-path` property, as shown in the following example:
+
+[source]
+----
+management.endpoints.web.base-path=/manage
+----
+
+The preceding `application.properties` example changes the form of the endpoint URLs from `/actuator/{id}` to `/manage/{id}`.
+For example, the URL `info` endpoint would become `/manage/info`.
+
+== Timestamps
+
+All timestamps that are consumed by the endpoints, either as query parameters or in the request body, must be formatted as an offset date and time as specified in link::https://en.wikipedia.org/wiki/ISO_8601[ISO 8601].
+
+

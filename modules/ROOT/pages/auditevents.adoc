@@ -1,0 +1,12 @@
+= Audit Events (auditevents)
+
+The auditevents endpoint provides information about the application’s audit events.
+
+== Retrieving Audit Events
+
+To retrieve the audit events, make a `GET` request to `/actuator/auditevents`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/auditevents?principal=alice&after=2024-08-22T16%3A49%3A59.642365836Z&type=logout' -i -X GET
+----
