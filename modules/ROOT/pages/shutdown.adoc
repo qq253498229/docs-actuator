@@ -1,0 +1,35 @@
+= Shutdown (shutdown)
+
+The `shutdown` endpoint is used to shut down the application.
+
+== Shutting Down the Application
+
+To shut down the application, make a `POST` request to `/actuator/shutdown`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/shutdown' -i -X POST
+----
+
+A response similar to the following is produced:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 41
+
+{
+  "message" : "Shutting down, bye..."
+}
+----
+
+=== Response Structure
+
+The response contains details of the result of the shutdown request.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`message`|`String`|Message describing the result of the request.
+|===

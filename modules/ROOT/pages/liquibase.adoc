@@ -1,0 +1,70 @@
+= Liquibase (liquibase)
+
+The `liquibase` endpoint provides information about database change sets applied by Liquibase.
+
+== Retrieving the Changes
+
+To retrieve the changes, make a `GET` request to `/actuator/liquibase`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/liquibase' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 677
+
+{
+  "contexts" : {
+    "application" : {
+      "liquibaseBeans" : {
+        "liquibase" : {
+          "changeSets" : [ {
+            "author" : "marceloverdijk",
+            "changeLog" : "db/changelog/db.changelog-master.yaml",
+            "comments" : "",
+            "contexts" : [ ],
+            "dateExecuted" : "2024-08-22T16:50:15.483Z",
+            "deploymentId" : "4345415369",
+            "description" : "createTable tableName=customer",
+            "execType" : "EXECUTED",
+            "id" : "1",
+            "labels" : [ ],
+            "checksum" : "9:d3589feb2baad02e15540750499ba311",
+            "orderExecuted" : 1
+          } ]
+        }
+      }
+    }
+  }
+}
+----
+
+=== Response Structure
+
+The response contains details of the application’s Liquibase change sets.
+The following table describes the structure of the response:
+
+|===
+|Path|Type|Description
+|`contexts`|`Object`|Application contexts keyed by id
+|`pass:[contexts.*.liquibaseBeans.*.changeSets]`|`Array`|Change sets made by the Liquibase beans, keyed by bean name.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].author]`|`String`|Author of the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].changeLog]`|`String`|Change log that contains the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].comments]`|`String`|Comments on the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].contexts]`|`Array`|Contexts of the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].dateExecuted]`|`String`|Timestamp of when the change set was executed.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].deploymentId]`|`String`|ID of the deployment that ran the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].description]`|`String`|Description of the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].execType]`|`String`|Execution type of the change set (`EXECUTED`, `FAILED`, `SKIPPED`, `RERAN`, `MARK_RAN`).
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].id]`|`String`|ID of the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].labels]`|`Array`|Labels associated with the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].checksum]`|`String`|Checksum of the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].orderExecuted]`|`Number`|Order of the execution of the change set.
+|`pass:[contexts.*.liquibaseBeans.*.changeSets[\].tag]`|`String`|Tag associated with the change set, if any.
+|`contexts.*.parentId`|`String`|Id of the parent application context, if any.
+|===

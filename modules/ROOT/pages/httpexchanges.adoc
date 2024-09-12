@@ -1,0 +1,71 @@
+= HTTP Exchanges (httpexchanges)
+
+The `httpexchanges` endpoint provides information about HTTP request-response exchanges.
+
+== Retrieving the HTTP Exchanges
+
+To retrieve the HTTP exchanges, make a `GET` request to `/actuator/httpexchanges`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/httpexchanges' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 511
+
+{
+  "exchanges" : [ {
+    "timestamp" : "2022-12-22T13:43:41Z",
+    "request" : {
+      "uri" : "https://api.example.com",
+      "method" : "GET",
+      "headers" : {
+        "Accept" : [ "application/json" ]
+      }
+    },
+    "response" : {
+      "status" : 200,
+      "headers" : {
+        "Content-Type" : [ "application/json" ]
+      }
+    },
+    "principal" : {
+      "name" : "alice"
+    },
+    "session" : {
+      "id" : "a3d738d9-8575-4217-b121-0b2273306f0a"
+    },
+    "timeTaken" : "PT0.023S"
+  } ]
+}
+----
+
+=== Response Structure
+
+The response contains details of the traced HTTP request-response exchanges.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`exchanges`|`Array`|An array of HTTP request-response exchanges.
+|`pass:[exchanges.[\].timestamp]`|`String`|Timestamp of when the exchange occurred.
+|`pass:[exchanges.[\].principal]`|`Object`|Principal of the exchange, if any.
+|`pass:[exchanges.[\].principal.name]`|`String`|Name of the principal.
+|`pass:[exchanges.[\].request.method]`|`String`|HTTP method of the request.
+|`pass:[exchanges.[\].request.remoteAddress]`|`String`|Remote address from which the request was received, if known.
+|`pass:[exchanges.[\].request.uri]`|`String`|URI of the request.
+|`pass:[exchanges.[\].request.headers]`|`Object`|Headers of the request, keyed by header name.
+|`pass:[exchanges.[\].request.headers.*.[\]]`|`Array`|Values of the header
+|`pass:[exchanges.[\].response.status]`|`Number`|Status of the response
+|`pass:[exchanges.[\].response.headers]`|`Object`|Headers of the response, keyed by header name.
+|`pass:[exchanges.[\].response.headers.*.[\]]`|`Array`|Values of the header
+|`pass:[exchanges.[\].session]`|`Object`|Session associated with the exchange, if any.
+|`pass:[exchanges.[\].session.id]`|`String`|ID of the session.
+|`pass:[exchanges.[\].timeTaken]`|`String`|Time taken to handle the exchange.
+|===

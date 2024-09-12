@@ -1,0 +1,94 @@
+= Conditions Evaluation Report (conditions)
+
+The `conditions` endpoint provides information about the evaluation of conditions on configuration and auto-configuration classes.
+
+== Retrieving the Report
+
+To retrieve the report, make a `GET` request to `/actuator/conditions`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/conditions' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 3705
+
+{
+  "contexts" : {
+    "application" : {
+      "positiveMatches" : {
+        "EndpointAutoConfiguration#endpointOperationParameterMapper" : [ {
+          "condition" : "OnBeanCondition",
+          "message" : "@ConditionalOnMissingBean (types: org.springframework.boot.actuate.endpoint.invoke.ParameterValueMapper; SearchStrategy: all) did not find any beans"
+        } ],
+        "JacksonEndpointAutoConfiguration#endpointObjectMapper" : [ {
+          "condition" : "OnClassCondition",
+          "message" : "@ConditionalOnClass found required classes 'com.fasterxml.jackson.databind.ObjectMapper', 'org.springframework.http.converter.json.Jackson2ObjectMapperBuilder'"
+        }, {
+          "condition" : "OnPropertyCondition",
+          "message" : "@ConditionalOnProperty (management.endpoints.jackson.isolated-object-mapper) matched"
+        } ],
+        "EndpointAutoConfiguration#endpointCachingOperationInvokerAdvisor" : [ {
+          "condition" : "OnBeanCondition",
+          "message" : "@ConditionalOnMissingBean (types: org.springframework.boot.actuate.endpoint.invoker.cache.CachingOperationInvokerAdvisor; SearchStrategy: all) did not find any beans"
+        } ]
+      },
+      "negativeMatches" : {
+        "WebFluxEndpointManagementContextConfiguration" : {
+          "notMatched" : [ {
+            "condition" : "OnWebApplicationCondition",
+            "message" : "not a reactive web application"
+          } ],
+          "matched" : [ {
+            "condition" : "OnClassCondition",
+            "message" : "@ConditionalOnClass found required classes 'org.springframework.web.reactive.DispatcherHandler', 'org.springframework.http.server.reactive.HttpHandler'"
+          } ]
+        },
+        "GsonHttpMessageConvertersConfiguration.GsonHttpMessageConverterConfiguration" : {
+          "notMatched" : [ {
+            "condition" : "GsonHttpMessageConvertersConfiguration.PreferGsonOrJacksonAndJsonbUnavailableCondition",
+            "message" : "AnyNestedCondition 0 matched 2 did not; NestedCondition on GsonHttpMessageConvertersConfiguration.PreferGsonOrJacksonAndJsonbUnavailableCondition.JacksonJsonbUnavailable NoneNestedConditions 1 matched 1 did not; NestedCondition on GsonHttpMessageConvertersConfiguration.JacksonAndJsonbUnavailableCondition.JsonbPreferred @ConditionalOnProperty (spring.mvc.converters.preferred-json-mapper=jsonb) did not find property 'spring.mvc.converters.preferred-json-mapper'; NestedCondition on GsonHttpMessageConvertersConfiguration.JacksonAndJsonbUnavailableCondition.JacksonAvailable @ConditionalOnBean (types: org.springframework.http.converter.json.MappingJackson2HttpMessageConverter; SearchStrategy: all) found bean 'mappingJackson2HttpMessageConverter'; NestedCondition on GsonHttpMessageConvertersConfiguration.PreferGsonOrJacksonAndJsonbUnavailableCondition.GsonPreferred @ConditionalOnProperty (spring.mvc.converters.preferred-json-mapper=gson) did not find property 'spring.mvc.converters.preferred-json-mapper'"
+          } ],
+          "matched" : [ ]
+        },
+        "WebMvcEndpointManagementContextConfiguration#managementHealthEndpointWebMvcHandlerMapping" : {
+          "notMatched" : [ {
+            "condition" : "OnManagementPortCondition",
+            "message" : "Management Port actual port type (SAME) did not match required type (DIFFERENT)"
+          } ],
+          "matched" : [ ]
+        }
+      },
+      "unconditionalClasses" : [ "org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration", "org.springframework.boot.actuate.autoconfigure.endpoint.jackson.JacksonEndpointAutoConfiguration", "org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration" ]
+    }
+  }
+}
+----
+
+=== Response Structure
+
+The response contains details of the application’s condition evaluation.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`contexts`|`Object`|Application contexts keyed by id.
+|`pass:[contexts.*.positiveMatches]`|`Object`|Classes and methods with conditions that were matched.
+|`pass:[contexts.*.positiveMatches.*.[\].condition]`|`String`|Name of the condition.
+|`pass:[contexts.*.positiveMatches.*.[\].message]`|`String`|Details of why the condition was matched.
+|`contexts.*.negativeMatches`|`Object`|Classes and methods with conditions that were not matched.
+|`pass:[contexts.*.negativeMatches.*.notMatched]`|`Array`|Conditions that were matched.
+|`pass:[contexts.*.negativeMatches.*.notMatched.[\].condition]`|`String`|Name of the condition.
+|`pass:[contexts.*.negativeMatches.*.notMatched.[\].message]`|`String`|Details of why the condition was not matched.
+|`pass:[contexts.*.negativeMatches.*.matched]`|`Array`|Conditions that were matched.
+|`pass:[contexts.*.negativeMatches.*.matched.[\].condition]`|`String`|Name of the condition.
+|`pass:[contexts.*.negativeMatches.*.matched.[\].message]`|`String`|Details of why the condition was matched.
+|`contexts.*.unconditionalClasses`|`Array`|Names of unconditional auto-configuration classes if any.
+|`contexts.*.parentId`|`String`|Id of the parent application context, if any.
+|===

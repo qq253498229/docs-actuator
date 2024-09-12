@@ -1,0 +1,73 @@
+= Scheduled Tasks (scheduledtasks)
+
+The `scheduledtasks` endpoint provides information about the application’s scheduled tasks.
+
+== Retrieving the Scheduled Tasks
+
+To retrieve the scheduled tasks, make a `GET` request to `/actuator/scheduledtasks`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/scheduledtasks' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 629
+
+{
+  "cron" : [ {
+    "runnable" : {
+      "target" : "com.example.Processor.processOrders"
+    },
+    "expression" : "0 0 0/3 1/1 * ?"
+  } ],
+  "fixedDelay" : [ {
+    "runnable" : {
+      "target" : "com.example.Processor.purge"
+    },
+    "initialDelay" : 5000,
+    "interval" : 5000
+  } ],
+  "fixedRate" : [ {
+    "runnable" : {
+      "target" : "com.example.Processor.retrieveIssues"
+    },
+    "initialDelay" : 10000,
+    "interval" : 3000
+  } ],
+  "custom" : [ {
+    "runnable" : {
+      "target" : "com.example.Processor$CustomTriggeredRunnable"
+    },
+    "trigger" : "com.example.Processor$CustomTrigger@111d4b1c"
+  } ]
+}
+----
+
+=== Response Structure
+
+The response contains details of the application’s scheduled tasks.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`cron`|`Array`|Cron tasks, if any.
+|`cron.[].runnable.target`|`String`|Target that will be executed.
+|`cron.[].expression`|`String`|Cron expression.
+|`fixedDelay`|`Array`|Fixed delay tasks, if any.
+|`fixedDelay.[].runnable.target`|`String`|Target that will be executed.
+|`fixedDelay.[].initialDelay`|`Number`|Delay, in milliseconds, before first execution.
+|`fixedDelay.[].interval`|`Number`|Interval, in milliseconds, between the end of the last execution and the start of the next.
+|`fixedRate`|`Array`|Fixed rate tasks, if any.
+|`fixedRate.[].runnable.target`|`String`|Target that will be executed.
+|`fixedRate.[].interval`|`Number`|Interval, in milliseconds, between the start of each execution.
+|`fixedRate.[].initialDelay`|`Number`|Delay, in milliseconds, before first execution.
+|`custom`|`Array`|Tasks with custom triggers, if any.
+|`custom.[].runnable.target`|`String`|Target that will be executed.
+|`custom.[].trigger`|`String`|Trigger for the task.
+|===

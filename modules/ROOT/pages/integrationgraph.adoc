@@ -1,0 +1,79 @@
+= Spring Integration Graph (integrationgraph)
+
+The `integrationgraph` endpoint exposes a graph containing all Spring Integration components.
+
+== Retrieving the Spring Integration Graph
+
+To retrieve the information about the application, make a `GET` request to `/actuator/integrationgraph`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/integrationgraph' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 1033
+
+{
+  "contentDescriptor" : {
+    "providerVersion" : "6.3.3",
+    "providerFormatVersion" : 1.2,
+    "provider" : "spring-integration"
+  },
+  "nodes" : [ {
+    "nodeId" : 1,
+    "componentType" : "null-channel",
+    "integrationPatternType" : "null_channel",
+    "integrationPatternCategory" : "messaging_channel",
+    "properties" : { },
+    "name" : "nullChannel",
+    "observed" : false
+  }, {
+    "nodeId" : 2,
+    "componentType" : "publish-subscribe-channel",
+    "integrationPatternType" : "publish_subscribe_channel",
+    "integrationPatternCategory" : "messaging_channel",
+    "properties" : { },
+    "name" : "errorChannel",
+    "observed" : false
+  }, {
+    "nodeId" : 3,
+    "componentType" : "logging-channel-adapter",
+    "integrationPatternType" : "outbound_channel_adapter",
+    "integrationPatternCategory" : "messaging_endpoint",
+    "properties" : { },
+    "input" : "errorChannel",
+    "name" : "errorLogger",
+    "observed" : false
+  } ],
+  "links" : [ {
+    "from" : 2,
+    "to" : 3,
+    "type" : "input"
+  } ]
+}
+----
+
+=== Response Structure
+
+The response contains all Spring Integration components used within the application, as well as the links between them.
+More information about the structure can be found in the https://docs.spring.io/spring-integration/reference/6.3/graph.html[reference documentation].
+
+== Rebuilding the Spring Integration Graph
+
+To rebuild the exposed graph, make a `POST` request to `/actuator/integrationgraph`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/integrationgraph' -i -X POST
+----
+
+This will result in a `204 - No Content` response:
+
+----
+HTTP/1.1 204 No Content
+----

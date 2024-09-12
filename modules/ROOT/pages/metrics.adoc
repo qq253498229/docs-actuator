@@ -1,0 +1,132 @@
+= Metrics (metrics)
+
+The `metrics` endpoint provides access to application metrics.
+
+== Retrieving Metric Names
+
+To retrieve the names of the available metrics, make a `GET` request to `/actuator/metrics`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/metrics' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 154
+
+{
+  "names" : [ "jvm.buffer.count", "jvm.buffer.memory.used", "jvm.buffer.total.capacity", "jvm.memory.committed", "jvm.memory.max", "jvm.memory.used" ]
+}
+----
+
+=== Response Structure
+
+The response contains details of the metric names.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`names`|`Array`|Names of the known metrics.
+|===
+
+== Retrieving a Metric
+
+To retrieve a metric, make a `GET` request to `pass:[/actuator/metrics/{metric.name}]`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/metrics/jvm.memory.max' -i -X GET
+----
+
+The preceding example retrieves information about the metric named `jvm.memory.max`.
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Disposition: inline;filename=f.txt
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 555
+
+{
+  "name" : "jvm.memory.max",
+  "description" : "The maximum amount of memory in bytes that can be used for memory management",
+  "baseUnit" : "bytes",
+  "measurements" : [ {
+    "statistic" : "VALUE",
+    "value" : 2.399141885E9
+  } ],
+  "availableTags" : [ {
+    "tag" : "area",
+    "values" : [ "heap", "nonheap" ]
+  }, {
+    "tag" : "id",
+    "values" : [ "CodeHeap 'profiled nmethods'", "G1 Old Gen", "CodeHeap 'non-profiled nmethods'", "G1 Survivor Space", "Compressed Class Space", "Metaspace", "G1 Eden Space", "CodeHeap 'non-nmethods'" ]
+  } ]
+}
+----
+
+=== Query Parameters
+
+The endpoint uses query parameters to <<drilling-down,drill down>> into a metric by using its tags.
+The following table shows the single supported query parameter:
+
+[%autowidth]
+|===
+|Parameter|Description
+|`tag`|A tag to use for drill-down in the form `name:value`.
+|===
+
+=== Response Structure
+
+The response contains details of the metric.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`name`|`String`|Name of the metric
+|`description`|`String`|Description of the metric
+|`baseUnit`|`String`|Base unit of the metric
+|`measurements`|`Array`|Measurements of the metric
+|`measurements[].statistic`|`String`|Statistic of the measurement. (`TOTAL`, `TOTAL_TIME`, `COUNT`, `MAX`, `VALUE`, `UNKNOWN`, `ACTIVE_TASKS`, `DURATION`).
+|`measurements[].value`|`Number`|Value of the measurement.
+|`availableTags`|`Array`|Tags that are available for drill-down.
+|`availableTags[].tag`|`String`|Name of the tag.
+|`availableTags[].values`|`Array`|Possible values of the tag.
+|===
+
+[[drilling-down]]
+== Drilling Down
+
+To drill down into a metric, make a `GET` request to `pass:[/actuator/metrics/{metric.name}]` using the tag query parameter, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/metrics/jvm.memory.max?tag=area%3Anonheap&tag=id%3ACompressed+Class+Space' -i -X GET
+----
+
+The preceding example retrieves the `jvm.memory.max` metric, where the `area` tag has a value of `nonheap` and the `id` attribute has a value of `Compressed Class Space`.
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Disposition: inline;filename=f.txt
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 263
+
+{
+  "name" : "jvm.memory.max",
+  "description" : "The maximum amount of memory in bytes that can be used for memory management",
+  "baseUnit" : "bytes",
+  "measurements" : [ {
+    "statistic" : "VALUE",
+    "value" : 1.073741824E9
+  } ],
+  "availableTags" : [ ]
+}
+----

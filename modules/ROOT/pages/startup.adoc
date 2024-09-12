@@ -1,0 +1,129 @@
+= Application Startup (startup)
+
+The `startup` endpoint provides information about the application’s startup sequence.
+
+== Retrieving the Application Startup Steps
+
+The application startup steps can either be retrieved as a snapshot (`GET`) or drained from the buffer (`POST`).
+
+=== Retrieving a snapshot of the Application Startup Steps
+
+To retrieve the steps recorded so far during the application startup phase, make a `GET` request to `/actuator/startup`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/startup' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 888
+
+{
+  "springBootVersion" : "3.3.3",
+  "timeline" : {
+    "startTime" : "2024-08-22T16:50:34.319587289Z",
+    "events" : [ {
+      "endTime" : "2024-08-22T16:50:34.644774146Z",
+      "duration" : "PT0.00000539S",
+      "startTime" : "2024-08-22T16:50:34.644768756Z",
+      "startupStep" : {
+        "name" : "spring.beans.instantiate",
+        "id" : 3,
+        "tags" : [ {
+          "key" : "beanName",
+          "value" : "homeController"
+        } ],
+        "parentId" : 2
+      }
+    }, {
+      "endTime" : "2024-08-22T16:50:34.644781199Z",
+      "duration" : "PT0.000019015S",
+      "startTime" : "2024-08-22T16:50:34.644762184Z",
+      "startupStep" : {
+        "name" : "spring.boot.application.starting",
+        "id" : 2,
+        "tags" : [ {
+          "key" : "mainApplicationClass",
+          "value" : "com.example.startup.StartupApplication"
+        } ]
+      }
+    } ]
+  }
+}
+----
+
+=== Draining the Application Startup Steps
+
+To drain and return the steps recorded so far during the application startup phase, make a `POST` request to `/actuator/startup`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/startup' -i -X POST
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 889
+
+{
+  "springBootVersion" : "3.3.3",
+  "timeline" : {
+    "startTime" : "2024-08-22T16:50:34.319587289Z",
+    "events" : [ {
+      "endTime" : "2024-08-22T16:50:34.581934910Z",
+      "duration" : "PT0.000208118S",
+      "startTime" : "2024-08-22T16:50:34.581726792Z",
+      "startupStep" : {
+        "name" : "spring.beans.instantiate",
+        "id" : 1,
+        "tags" : [ {
+          "key" : "beanName",
+          "value" : "homeController"
+        } ],
+        "parentId" : 0
+      }
+    }, {
+      "endTime" : "2024-08-22T16:50:34.581963633Z",
+      "duration" : "PT0.001131896S",
+      "startTime" : "2024-08-22T16:50:34.580831737Z",
+      "startupStep" : {
+        "name" : "spring.boot.application.starting",
+        "id" : 0,
+        "tags" : [ {
+          "key" : "mainApplicationClass",
+          "value" : "com.example.startup.StartupApplication"
+        } ]
+      }
+    } ]
+  }
+}
+----
+
+=== Response Structure
+
+The response contains details of the application startup steps.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`springBootVersion`|`String`|Spring Boot version for this application.
+|`timeline.startTime`|`String`|Start time of the application.
+|`timeline.events`|`Array`|An array of steps collected during application startup so far.
+|`timeline.events.[].startTime`|`String`|The timestamp of the start of this event.
+|`timeline.events.[].endTime`|`String`|The timestamp of the end of this event.
+|`timeline.events.[].duration`|`String`|The precise duration of this event.
+|`timeline.events.[].startupStep.name`|`String`|The name of the StartupStep.
+|`timeline.events.[].startupStep.id`|`Number`|The id of this StartupStep.
+|`timeline.events.[].startupStep.parentId`|`Number`|The parent id for this StartupStep.
+|`timeline.events.[].startupStep.tags`|`Array`|An array of key/value pairs with additional step info.
+|`timeline.events.[].startupStep.tags[].key`|`String`|The key of the StartupStep Tag.
+|`timeline.events.[].startupStep.tags[].value`|`String`|The value of the StartupStep Tag.
+|===

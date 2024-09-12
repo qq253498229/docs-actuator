@@ -1,13 +1,14 @@
 name: docs-actuator
-title: docs-actuator
-version: '0.0.1'
+title: Spring Boot Actuator
+version: '3.3.3'
 start_page: ROOT:index.adoc
 nav:
   - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    page-toclevels: 3
-    page-toctitle: 目录
-    sectnums: 6
-    toc-title: 目录
-    toclevels: 6
+    page-toclevels: 3@
+    page-toctitle: 目录@
+    sectnums: 6@
+    toc-title: 目录@
+    toclevels: 6@
+    sectnumlevels: 0@

@@ -1,0 +1,69 @@
+= Software Bill of Materials (sbom)
+
+The `sbom` endpoint provides information about the software bill of materials (SBOM).
+
+== Retrieving the Available SBOMs
+
+To retrieve the available SBOMs, make a `GET` request to `/actuator/sbom`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/sbom' -i -X GET
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Content-Length: 31
+
+{
+  "ids" : [ "application" ]
+}
+----
+
+=== Response Structure
+
+The response contains the available SBOMs.
+The following table describes the structure of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`ids`|`Array`|An array of available SBOM ids.
+|===
+
+== Retrieving a Single SBOM
+
+To retrieve the available SBOMs, make a `GET` request to `pass:[/actuator/sbom/{id}]`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:8080/actuator/sbom/application' -i -X GET
+----
+
+The preceding example retrieves the SBOM named application.
+The resulting response depends on the format of the SBOM.
+This example uses the CycloneDX format.
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.cyclonedx+json
+Accept-Ranges: bytes
+Content-Length: 160316
+
+{
+  "bomFormat" : "CycloneDX",
+  "specVersion" : "1.5",
+  "serialNumber" : "urn:uuid:13862013-3360-43e5-8055-3645aa43c548",
+  "version" : 1,
+  // ...
+}
+----
+
+=== Response Structure
+
+The response depends on the format of the SBOM:
+
+* https://cyclonedx.org/specification/overview/[CycloneDX,window=_blank]

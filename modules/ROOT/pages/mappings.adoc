@@ -1,0 +1,267 @@
+= Mappings (mappings)
+
+The `mappings` endpoint provides information about the application’s request mappings.
+
+== Retrieving the Mappings
+
+To retrieve the mappings, make a `GET` request to `/actuator/mappings`, as shown in the following curl-based example:
+
+[source,bash]
+----
+curl 'http://localhost:38761/actuator/mappings' -i -X GET \
+-H 'accept-encoding: gzip' \
+-H 'user-agent: ReactorNetty/1.1.22' \
+-H 'accept: */*'
+----
+
+The resulting response is similar to the following:
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Transfer-Encoding: chunked
+Date: Thu, 22 Aug 2024 16:50:26 GMT
+Content-Length: 5342
+
+{
+  "contexts" : {
+    "application" : {
+      "mappings" : {
+        "dispatcherServlets" : {
+          "dispatcherServlet" : [ {
+            "handler" : "Actuator root web endpoint",
+            "predicate" : "{GET [/actuator], produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}",
+            "details" : {
+              "handlerMethod" : {
+                "className" : "org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping.WebMvcLinksHandler",
+                "name" : "links",
+                "descriptor" : "(Ljakarta/servlet/http/HttpServletRequest;Ljakarta/servlet/http/HttpServletResponse;)Ljava/util/Map;"
+              },
+              "requestMappingConditions" : {
+                "consumes" : [ ],
+                "headers" : [ ],
+                "methods" : [ "GET" ],
+                "params" : [ ],
+                "patterns" : [ "/actuator" ],
+                "produces" : [ {
+                  "mediaType" : "application/vnd.spring-boot.actuator.v3+json",
+                  "negated" : false
+                }, {
+                  "mediaType" : "application/vnd.spring-boot.actuator.v2+json",
+                  "negated" : false
+                }, {
+                  "mediaType" : "application/json",
+                  "negated" : false
+                } ]
+              }
+            }
+          }, {
+            "handler" : "Actuator web endpoint 'mappings'",
+            "predicate" : "{GET [/actuator/mappings], produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}",
+            "details" : {
+              "handlerMethod" : {
+                "className" : "org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping.OperationHandler",
+                "name" : "handle",
+                "descriptor" : "(Ljakarta/servlet/http/HttpServletRequest;Ljava/util/Map;)Ljava/lang/Object;"
+              },
+              "requestMappingConditions" : {
+                "consumes" : [ ],
+                "headers" : [ ],
+                "methods" : [ "GET" ],
+                "params" : [ ],
+                "patterns" : [ "/actuator/mappings" ],
+                "produces" : [ {
+                  "mediaType" : "application/vnd.spring-boot.actuator.v3+json",
+                  "negated" : false
+                }, {
+                  "mediaType" : "application/vnd.spring-boot.actuator.v2+json",
+                  "negated" : false
+                }, {
+                  "mediaType" : "application/json",
+                  "negated" : false
+                } ]
+              }
+            }
+          }, {
+            "handler" : "org.springframework.boot.actuate.autoconfigure.endpoint.web.documentation.MappingsEndpointServletDocumentationTests$ExampleController#example()",
+            "predicate" : "{POST [/], params [a!=alpha], headers [X-Custom=Foo], consumes [application/json || !application/xml], produces [text/plain]}",
+            "details" : {
+              "handlerMethod" : {
+                "className" : "org.springframework.boot.actuate.autoconfigure.endpoint.web.documentation.MappingsEndpointServletDocumentationTests.ExampleController",
+                "name" : "example",
+                "descriptor" : "()Ljava/lang/String;"
+              },
+              "requestMappingConditions" : {
+                "consumes" : [ {
+                  "mediaType" : "application/json",
+                  "negated" : false
+                }, {
+                  "mediaType" : "application/xml",
+                  "negated" : true
+                } ],
+                "headers" : [ {
+                  "name" : "X-Custom",
+                  "value" : "Foo",
+                  "negated" : false
+                } ],
+                "methods" : [ "POST" ],
+                "params" : [ {
+                  "name" : "a",
+                  "value" : "alpha",
+                  "negated" : true
+                } ],
+                "patterns" : [ "/" ],
+                "produces" : [ {
+                  "mediaType" : "text/plain",
+                  "negated" : false
+                } ]
+              }
+            }
+          }, {
+            "handler" : "ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]",
+            "predicate" : "/webjars/**"
+          }, {
+            "handler" : "ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]",
+            "predicate" : "/**"
+          } ]
+        },
+        "servletFilters" : [ {
+          "servletNameMappings" : [ ],
+          "urlPatternMappings" : [ "/*" ],
+          "name" : "requestContextFilter",
+          "className" : "org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter"
+        }, {
+          "servletNameMappings" : [ ],
+          "urlPatternMappings" : [ "/*" ],
+          "name" : "formContentFilter",
+          "className" : "org.springframework.boot.web.servlet.filter.OrderedFormContentFilter"
+        } ],
+        "servlets" : [ {
+          "mappings" : [ "/" ],
+          "name" : "dispatcherServlet",
+          "className" : "org.springframework.web.servlet.DispatcherServlet"
+        } ]
+      }
+    }
+  }
+}
+----
+
+=== Response Structure
+
+The response contains details of the application’s mappings.
+The items found in the response depend on the type of web application (reactive or Servlet-based).
+The following table describes the structure of the common elements of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`contexts`|`Object`|Application contexts keyed by id.
+|`contexts.*.mappings`|`Object`|Mappings in the context, keyed by mapping type.
+|`contexts.*.mappings.dispatcherServlets`|`Object`|Dispatcher servlet mappings, if any.
+|`contexts.*.mappings.servletFilters`|`Array`|Servlet filter mappings, if any.
+|`contexts.*.mappings.servlets`|`Array`|Servlet mappings, if any.
+|`contexts.*.mappings.dispatcherHandlers`|`Object`|Dispatcher handler mappings, if any.
+|`contexts.*.parentId`|`String`|Id of the parent application context, if any.
+|===
+
+The entries that may be found in `contexts.*.mappings` are described in the following sections.
+
+== Dispatcher Servlets Response Structure
+
+When using Spring MVC, the response contains details of any `DispatcherServlet` request mappings beneath `contexts.*.mappings.dispatcherServlets`.
+The following table describes the structure of this section of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`*`|`Array`|Dispatcher servlet mappings, if any, keyed by dispatcher servlet bean name.
+|`*.[].details`|`Object`|Additional implementation-specific details about the mapping. Optional.
+|`*.[].handler`|`String`|Handler for the mapping.
+|`*.[].predicate`|`String`|Predicate for the mapping.
+|`*.[].details.handlerMethod`|`Object`|Details of the method, if any, that will handle requests to this mapping.
+|`*.[].details.handlerMethod.className`|`Varies`|Fully qualified name of the class of the method.
+|`*.[].details.handlerMethod.name`|`Varies`|Name of the method.
+|`*.[].details.handlerMethod.descriptor`|`Varies`|Descriptor of the method as specified in the Java Language Specification.
+|`*.[].details.requestMappingConditions`|`Object`|Details of the request mapping conditions.
+|`*.[].details.requestMappingConditions.consumes`|`Varies`|Details of the consumes condition
+|`*.[].details.requestMappingConditions.consumes.[].mediaType`|`Varies`|Consumed media type.
+|`*.[].details.requestMappingConditions.consumes.[].negated`|`Varies`|Whether the media type is negated.
+|`*.[].details.requestMappingConditions.headers`|`Varies`|Details of the headers condition.
+|`*.[].details.requestMappingConditions.headers.[].name`|`Varies`|Name of the header.
+|`*.[].details.requestMappingConditions.headers.[].value`|`Varies`|Required value of the header, if any.
+|`*.[].details.requestMappingConditions.headers.[].negated`|`Varies`|Whether the value is negated.
+|`*.[].details.requestMappingConditions.methods`|`Varies`|HTTP methods that are handled.
+|`*.[].details.requestMappingConditions.params`|`Varies`|Details of the params condition.
+|`*.[].details.requestMappingConditions.params.[].name`|`Varies`|Name of the parameter.
+|`*.[].details.requestMappingConditions.params.[].value`|`Varies`|Required value of the parameter, if any.
+|`*.[].details.requestMappingConditions.params.[].negated`|`Varies`|Whether the value is negated.
+|`*.[].details.requestMappingConditions.patterns`|`Varies`|Patterns identifying the paths handled by the mapping.
+|`*.[].details.requestMappingConditions.produces`|`Varies`|Details of the produces condition.
+|`*.[].details.requestMappingConditions.produces.[].mediaType`|`Varies`|Produced media type.
+|`*.[].details.requestMappingConditions.produces.[].negated`|`Varies`|Whether the media type is negated.
+|===
+
+== Servlets Response Structure
+
+When using the Servlet stack, the response contains details of any `Servlet` mappings beneath `contexts.*.mappings.servlets`.
+The following table describes the structure of this section of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`[].mappings`|`Array`|Mappings of the servlet.
+|`[].name`|`String`|Name of the servlet.
+|`[].className`|`String`|Class name of the servlet
+|===
+
+== Servlet Filters Response Structure
+
+When using the Servlet stack, the response contains details of any `Filter` mappings beneath `contexts.*.mappings.servletFilters`.
+The following table describes the structure of this section of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`[].servletNameMappings`|`Array`|Names of the servlets to which the filter is mapped.
+|`[].urlPatternMappings`|`Array`|URL pattern to which the filter is mapped.
+|`[].name`|`String`|Name of the filter.
+|`[].className`|`String`|Class name of the filter
+|===
+
+== Dispatcher Handlers Response Structure
+
+When using Spring WebFlux, the response contains details of any `DispatcherHandler` request mappings beneath `contexts.*.mappings.dispatcherHandlers`.
+The following table describes the structure of this section of the response:
+
+[%autowidth]
+|===
+|Path|Type|Description
+|`*`|`Array`|Dispatcher handler mappings, if any, keyed by dispatcher handler bean name.
+|`*.[].details`|`Object`|Additional implementation-specific details about the mapping. Optional.
+|`*.[].handler`|`String`|Handler for the mapping.
+|`*.[].predicate`|`String`|Predicate for the mapping.
+|`*.[].details.requestMappingConditions`|`Object`|Details of the request mapping conditions.
+|`*.[].details.requestMappingConditions.consumes`|`Varies`|Details of the consumes condition
+|`*.[].details.requestMappingConditions.consumes.[].mediaType`|`Varies`|Consumed media type.
+|`*.[].details.requestMappingConditions.consumes.[].negated`|`Varies`|Whether the media type is negated.
+|`*.[].details.requestMappingConditions.headers`|`Varies`|Details of the headers condition.
+|`*.[].details.requestMappingConditions.headers.[].name`|`Varies`|Name of the header.
+|`*.[].details.requestMappingConditions.headers.[].value`|`Varies`|Required value of the header, if any.
+|`*.[].details.requestMappingConditions.headers.[].negated`|`Varies`|Whether the value is negated.
+|`*.[].details.requestMappingConditions.methods`|`Varies`|HTTP methods that are handled.
+|`*.[].details.requestMappingConditions.params`|`Varies`|Details of the params condition.
+|`*.[].details.requestMappingConditions.params.[].name`|`Varies`|Name of the parameter.
+|`*.[].details.requestMappingConditions.params.[].value`|`Varies`|Required value of the parameter, if any.
+|`*.[].details.requestMappingConditions.params.[].negated`|`Varies`|Whether the value is negated.
+|`*.[].details.requestMappingConditions.patterns`|`Varies`|Patterns identifying the paths handled by the mapping.
+|`*.[].details.requestMappingConditions.produces`|`Varies`|Details of the produces condition.
+|`*.[].details.requestMappingConditions.produces.[].mediaType`|`Varies`|Produced media type.
+|`*.[].details.requestMappingConditions.produces.[].negated`|`Varies`|Whether the media type is negated.
+|`*.[].details.handlerMethod`|`Object`|Details of the method, if any, that will handle requests to this mapping.
+|`*.[].details.handlerMethod.className`|`String`|Fully qualified name of the class of the method.
+|`*.[].details.handlerMethod.name`|`String`|Name of the method.
+|`*.[].details.handlerMethod.descriptor`|`String`|Descriptor of the method as specified in the Java Language Specification.
+|`*.[].details.handlerFunction`|`Object`|Details of the function, if any, that will handle requests to this mapping.
+|`*.[].details.handlerFunction.className`|`String`|Fully qualified name of the class of the function.
+|===
