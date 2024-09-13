@@ -18,6 +18,7 @@
 * xref:prometheus.adoc[]
 * xref:quartz.adoc[]
 * xref:sbom.adoc[]
+* xref:scheduledtasks.adoc[]
 * xref:sessions.adoc[]
 * xref:shutdown.adoc[]
 * xref:startup.adoc[]
