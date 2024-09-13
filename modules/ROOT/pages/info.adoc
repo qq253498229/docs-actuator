@@ -1,17 +1,17 @@
 = Info (info)
 
-The `info` endpoint provides general information about the application.
+`info` 端点提供有关应用程序的一般信息。
 
-== Retrieving the Info
+== 检索 Info
 
-To retrieve the information about the application, make a `GET` request to `/actuator/info`, as shown in the following curl-based example:
+要检索应用程序的信息，请发送 `GET` 请求到 `/actuator/info`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/info' -i -X GET
 ----
 
-The resulting response is similar to the following:
+得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -34,38 +34,35 @@ Content-Length: 231
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains general information about the application.
-Each section of the response is contributed by an `InfoContributor`.
-Spring Boot provides several contributors that are described below.
+响应包含有关应用程序的一般信息。响应的每个部分由一个 `InfoContributor` 提供。Spring Boot 提供了几个贡献者，具体描述如下。
 
-==== Build Response Structure
+==== 构建响应结构
 
-The following table describe the structure of the `build` section of the response:
+下表描述了响应的 `build` 部分结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`artifact`|`String`|Artifact ID of the application, if any.
-|`group`|`String`|Group ID of the application, if any.
-|`name`|`String`|Name of the application, if any.
-|`version`|`String`|Version of the application, if any.
-|`time`|`Varies`|Timestamp of when the application was built, if any.
+|路径|类型|描述
+|`artifact`|`String`|应用程序的 Artifact ID（如果有）。
+|`group`|`String`|应用程序的 Group ID（如果有）。
+|`name`|`String`|应用程序的名称（如果有）。
+|`version`|`String`|应用程序的版本（如果有）。
+|`time`|`Varies`|应用程序构建的时间戳（如果有）。
 |===
 
-==== Git Response Structure
+==== Git 响应结构
 
-The following table describes the structure of the `git` section of the response:
+下表描述了响应的 `git` 部分结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`branch`|`String`|Name of the Git branch, if any.
-|`commit`|`Object`|Details of the Git commit, if any.
-|`commit.time`|`Varies`|Timestamp of the commit, if any.
-|`commit.id`|`String`|ID of the commit, if any.
+|路径|类型|描述
+|`branch`|`String`|Git 分支的名称（如果有）。
+|`commit`|`Object`|Git 提交的详细信息（如果有）。
+|`commit.time`|`Varies`|提交的时间戳（如果有）。
+|`commit.id`|`String`|提交的 ID（如果有）。
 |===
 
-NOTE: This is the "simple" output.
-The contributor can also be configured to output all available data.
+NOTE: 这只是 "simple" 输出。该贡献者还可以配置为输出所有可用的数据。

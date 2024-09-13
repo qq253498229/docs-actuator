@@ -1,17 +1,17 @@
-= HTTP Exchanges (httpexchanges)
+= HTTP 交换 (httpexchanges)
 
-The `httpexchanges` endpoint provides information about HTTP request-response exchanges.
+`httpexchanges` 端点提供有关 HTTP 请求-响应交换的信息。
 
-== Retrieving the HTTP Exchanges
+== 检索 HTTP 交换
 
-To retrieve the HTTP exchanges, make a `GET` request to `/actuator/httpexchanges`, as shown in the following curl-based example:
+要检索 HTTP 交换，请发送 `GET` 请求到 `/actuator/httpexchanges`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/httpexchanges' -i -X GET
 ----
 
-The resulting response is similar to the following:
+得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -45,27 +45,26 @@ Content-Length: 511
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the traced HTTP request-response exchanges.
-The following table describes the structure of the response:
+响应包含被追踪的 HTTP 请求-响应交换的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`exchanges`|`Array`|An array of HTTP request-response exchanges.
-|`pass:[exchanges.[\].timestamp]`|`String`|Timestamp of when the exchange occurred.
-|`pass:[exchanges.[\].principal]`|`Object`|Principal of the exchange, if any.
-|`pass:[exchanges.[\].principal.name]`|`String`|Name of the principal.
-|`pass:[exchanges.[\].request.method]`|`String`|HTTP method of the request.
-|`pass:[exchanges.[\].request.remoteAddress]`|`String`|Remote address from which the request was received, if known.
-|`pass:[exchanges.[\].request.uri]`|`String`|URI of the request.
-|`pass:[exchanges.[\].request.headers]`|`Object`|Headers of the request, keyed by header name.
-|`pass:[exchanges.[\].request.headers.*.[\]]`|`Array`|Values of the header
-|`pass:[exchanges.[\].response.status]`|`Number`|Status of the response
-|`pass:[exchanges.[\].response.headers]`|`Object`|Headers of the response, keyed by header name.
-|`pass:[exchanges.[\].response.headers.*.[\]]`|`Array`|Values of the header
-|`pass:[exchanges.[\].session]`|`Object`|Session associated with the exchange, if any.
-|`pass:[exchanges.[\].session.id]`|`String`|ID of the session.
-|`pass:[exchanges.[\].timeTaken]`|`String`|Time taken to handle the exchange.
+|路径|类型|描述
+|`exchanges`|`Array`|一个 HTTP 请求-响应交换的数组。
+|`pass:[exchanges.[\].timestamp]`|`String`|交换发生的时间戳。
+|`pass:[exchanges.[\].principal]`|`Object`|交换的主体（如果有）。
+|`pass:[exchanges.[\].principal.name]`|`String`|主体的名称。
+|`pass:[exchanges.[\].request.method]`|`String`|请求的 HTTP 方法。
+|`pass:[exchanges.[\].request.remoteAddress]`|`String`|接收到请求的远程地址（如果已知）。
+|`pass:[exchanges.[\].request.uri]`|`String`|请求的 URI。
+|`pass:[exchanges.[\].request.headers]`|`Object`|请求的头信息，以头名称为键。
+|`pass:[exchanges.[\].request.headers.*.[\]]`|`Array`|头的值。
+|`pass:[exchanges.[\].response.status]`|`Number`|响应的状态。
+|`pass:[exchanges.[\].response.headers]`|`Object`|响应的头信息，以头名称为键。
+|`pass:[exchanges.[\].response.headers.*.[\]]`|`Array`|头的值。
+|`pass:[exchanges.[\].session]`|`Object`|与交换相关的会话（如果有）。
+|`pass:[exchanges.[\].session.id]`|`String`|会话的 ID。
+|`pass:[exchanges.[\].timeTaken]`|`String`|处理交换所花费的时间。
 |===

@@ -1,10 +1,10 @@
-= Health (health)
+= 健康检查 (health)
 
-The `health` endpoint provides detailed information about the health of the application.
+`health` 端点提供了关于应用程序健康状况的详细信息。
 
-== Retrieving the Health of the Application
+== 检索应用程序的健康状况
 
-To retrieve the health of the application, make a `GET` request to `/actuator/health`, as shown in the following curl-based example:
+要检索应用程序的健康状况，可以按照以下基于 curl 的示例，向 `/actuator/health` 发起一个 `GET` 请求：
 
 [source,bash]
 ----
@@ -12,7 +12,7 @@ curl 'http://localhost:8080/actuator/health' -i -X GET \
 -H 'Accept: application/json'
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -60,27 +60,25 @@ Content-Length: 821
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the health of the application.
-The following table describes the structure of the response:
+响应包含应用程序健康状况的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`status`|`String`|Overall status of the application.
-|`components`|`Object`|The components that make up the health.
-|`components.*.status`|`String`|Status of a specific part of the application.
-|`components.*.components`|`Object`|The nested components that make up the health.
-|`components.*.details`|`Object`|Details of the health of a specific part of the application. Presence is controlled by `management.endpoint.health.show-details`.
+|路径|类型|描述
+|`status`|`String`|应用程序的整体状态。
+|`components`|`Object`|构成健康状况的组件。
+|`components.*.status`|`String`|应用程序特定部分的状态。
+|`components.*.components`|`Object`|构成健康状况的嵌套组件。
+|`components.*.details`|`Object`|应用程序特定部分的健康状况详情。显示由 `management.endpoint.health.show-details` 控制。
 |===
 
-NOTE: The response fields above are for the V3 API.
-If you need to return V2 JSON you should use an accept header or `application/vnd.spring-boot.actuator.v2+json`
+NOTE: 以上响应字段适用于 V3 API。如果需要返回 V2 的 JSON，可以使用 Accept 头或 `application/vnd.spring-boot.actuator.v2+json`。
 
-== Retrieving the Health of a Component
+== 检索组件的健康状况
 
-To retrieve the health of a particular component of the application’s health, make a `GET` request to `pass:[/actuator/health/{component}]`, as shown in the following curl-based example:
+要检索应用程序某个特定组件的健康状况，可以按照以下基于 curl 的示例，向 `pass:[/actuator/health/{component}]` 发起一个 `GET` 请求：
 
 [source,bash]
 ----
@@ -88,7 +86,7 @@ curl 'http://localhost:8080/actuator/health/db' -i -X GET \
 -H 'Accept: application/json'
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -104,21 +102,20 @@ Content-Length: 101
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the health of a particular component of the application’s health.
-The following table describes the structure of the response:
+响应包含应用程序某个特定组件的健康状况的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`status`|`String`|Status of a specific part of the application
-|`details`|`Object`|Details of the health of a specific part of the application.
+|路径|类型|描述
+|`status`|`String`|应用程序特定部分的状态。
+|`details`|`Object`|应用程序特定部分的健康状况详情。
 |===
 
-== Retrieving the Health of a Nested Component
+== 检索嵌套组件的健康状况
 
-If a particular component contains other nested components (as the `broker` indicator in the example above), the health of such a nested component can be retrieved by issuing a `GET` request to `pass:[/actuator/health/{component}/{subcomponent}]`, as shown in the following curl-based example:
+如果某个特定组件包含其他嵌套组件（如上述示例中的 `broker` 指标），可以通过向 `pass:[/actuator/health/{component}/{subcomponent}]` 发起 `GET` 请求来检索嵌套组件的健康状况，示例如下：
 
 [source,bash]
 ----
@@ -126,7 +123,7 @@ curl 'http://localhost:8080/actuator/health/broker/us1' -i -X GET \
 -H 'Accept: application/json'
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -141,16 +138,14 @@ Content-Length: 66
 }
 ----
 
-Components of an application’s health may be nested arbitrarily deep depending on the application’s health indicators and how they have been grouped.
-The health endpoint supports any number of `pass:[/{component}]` identifiers in the URL to allow the health of a component at any depth to be retrieved.
+应用程序健康状况的组件可以根据健康指标和分组情况进行任意深度的嵌套。Health 端点支持 URL 中任意数量的 `pass:[/{component}]` 标识符，以便检索任意深度的组件健康状况。
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the health of an instance of a particular component of the application.
-The following table describes the structure of the response:
+响应包含应用程序某个特定组件实例的健康状况的详细信息。下表描述了响应的结构：
 
 |===
-|Path|Type|Description
-|`status`|`String`|Status of a specific part of the application
-|`details`|`Object`|Details of the health of a specific part of the application.
+|路径|类型|描述
+|`status`|`String`|应用程序特定部分的状态。
+|`details`|`Object`|应用程序特定部分的健康状况详情。
 |===

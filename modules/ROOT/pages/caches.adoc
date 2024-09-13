@@ -1,17 +1,17 @@
-= Caches (caches)
+= 缓存 (caches)
 
-The `caches` endpoint provides access to the application’s caches.
+`caches` 端点提供了对应用程序缓存的访问。
 
-== Retrieving All Caches
+== 检索所有缓存
 
-To retrieve the application’s caches, make a `GET` request to `/actuator/caches`, as shown in the following curl-based example:
+要检索应用程序的缓存，可以按照以下基于 curl 的示例，向 `/actuator/caches` 发起一个 `GET` 请求：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/caches' -i -X GET
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -41,30 +41,28 @@ Content-Length: 435
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the application’s caches.
-The following table describes the structure of the response:
+响应包含应用程序缓存的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`cacheManagers`|`Object`|Cache managers keyed by id.
-|`pass:[cacheManagers.*.caches]`|`Object`|Caches in the application context keyed by name.
-|`pass:[cacheManagers.*.caches.*.target]`|`String`|Fully qualified name of the native cache.
+|路径|类型|描述
+|`cacheManagers`|`Object`|以 ID 为键的缓存管理器。
+|`pass:[cacheManagers.*.caches]`|`Object`|应用程序上下文中以名称为键的缓存。
+|`pass:[cacheManagers.*.caches.*.target]`|`String`|原生缓存的完全限定名称。
 |===
 
-== Retrieving Caches by Name
+== 按名称检索缓存
 
-To retrieve a cache by name, make a `GET` request to `pass:[/actuator/caches/{name}]`, as shown in the following curl-based example:
+要按名称检索缓存，可以按照以下基于 curl 的示例，向 `pass:[/actuator/caches/{name}]` 发起一个 `GET` 请求：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/caches/cities' -i -X GET
 ----
 
-The preceding example retrieves information about the cache named `cities`.
-The resulting response is similar to the following:
+上述示例检索了名为 `cities` 的缓存的信息。返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -78,43 +76,40 @@ Content-Length: 113
 }
 ----
 
-=== Query Parameters
+=== 查询参数
 
-If the requested name is specific enough to identify a single cache, no extra parameter is required.
-Otherwise, the `cacheManager` must be specified.
-The following table shows the supported query parameters:
+如果请求的名称足够具体以标识单个缓存，则不需要额外的参数。 否则，必须指定 `cacheManager`。下表显示了支持的查询参数：
 
 [%autowidth]
 |===
-|Parameter|Description
-|`cacheManager`|Name of the cacheManager to qualify the cache. May be omitted if the cache name is unique.
+|参数|描述
+|`cacheManager`|用于限定缓存的 cacheManager 名称。如果缓存名称是唯一的，可以省略。
 |===
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the requested cache.
-The following table describes the structure of the response:
+响应包含请求缓存的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`name`|`String`|Cache name.
-|`cacheManager`|`String`|Cache manager name.
-|`target`|`String`|Fully qualified name of the native cache.
+|路径|类型|描述
+|`name`|`String`|缓存名称。
+|`cacheManager`|`String`|缓存管理器名称。
+|`target`|`String`|原生缓存的完全限定名称。
 |===
 
-== Evict All Caches
+== 清空所有缓存
 
-To clear all available caches, make a `DELETE` request to `/actuator/caches` as shown in the following curl-based example:
+要清空所有可用缓存，可以按照以下基于 curl 的示例，向 `/actuator/caches` 发起一个 `DELETE` 请求：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/caches' -i -X DELETE
 ----
 
-== Evict a Cache by Name
+== 按名称清空缓存
 
-To evict a particular cache, make a `DELETE` request to `pass:[/actuator/caches/{name}]` as shown in the following curl-based example:
+要清空特定的缓存，可以按照以下基于 curl 的示例，向 `pass:[/actuator/caches/{name}]` 发起一个 `DELETE` 请求：
 
 [source,bash]
 ----
@@ -122,16 +117,14 @@ $ curl 'http://localhost:8080/actuator/caches/countries?cacheManager=anotherCach
     -H 'Content-Type: application/x-www-form-urlencoded'
 ----
 
-NOTE: As there are two caches named `countries`, the `cacheManager` has to be provided to specify which `Cache` should be cleared.
+NOTE: 由于有两个名为 `countries` 的缓存，因此需要提供 `cacheManager` 来指定要清空的 `Cache`。
 
-=== Request Structure
+=== 请求结构
 
-If the requested name is specific enough to identify a single cache, no extra parameter is required.
-Otherwise, the `cacheManager` must be specified.
-The following table shows the supported query parameters:
+如果请求的名称足够具体以标识单个缓存，则不需要额外的参数。否则，必须指定 `cacheManager`。下表显示了支持的查询参数：
 
 [%autowidth]
 |===
-|Parameter|Description
-|`cacheManager`|Name of the cacheManager to qualify the cache. May be omitted if the cache name is unique.
+|参数|描述
+|`cacheManager`|用于限定缓存的 cacheManager 名称。如果缓存名称是唯一的，可以省略。
 |===

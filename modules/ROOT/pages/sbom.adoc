@@ -1,17 +1,17 @@
-= Software Bill of Materials (sbom)
+= 软件物料清单 (sbom)
 
-The `sbom` endpoint provides information about the software bill of materials (SBOM).
+`sbom` 端点提供有关软件物料清单（SBOM）的信息。
 
-== Retrieving the Available SBOMs
+== 获取可用的 SBOM
 
-To retrieve the available SBOMs, make a `GET` request to `/actuator/sbom`, as shown in the following curl-based example:
+要获取可用的 SBOM，可以按照以下基于 curl 的示例发送 `GET` 请求到 `/actuator/sbom`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/sbom' -i -X GET
 ----
 
-The resulting response is similar to the following:
+响应结果类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -23,29 +23,26 @@ Content-Length: 31
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains the available SBOMs.
-The following table describes the structure of the response:
+响应包含可用的 SBOM。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`ids`|`Array`|An array of available SBOM ids.
+|路径|类型|描述
+|`ids`|`Array`|可用的 SBOM ID 数组。
 |===
 
-== Retrieving a Single SBOM
+== 获取单个 SBOM
 
-To retrieve the available SBOMs, make a `GET` request to `pass:[/actuator/sbom/{id}]`, as shown in the following curl-based example:
+要获取特定的 SBOM，可以按照以下基于 curl 的示例发送 `GET` 请求到 `pass:[/actuator/sbom/{id}]`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/sbom/application' -i -X GET
 ----
 
-The preceding example retrieves the SBOM named application.
-The resulting response depends on the format of the SBOM.
-This example uses the CycloneDX format.
+上述示例获取了名为 application 的 SBOM。响应结果取决于 SBOM 的格式。本示例使用 CycloneDX 格式。
 
 ----
 HTTP/1.1 200 OK
@@ -62,8 +59,8 @@ Content-Length: 160316
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response depends on the format of the SBOM:
+响应内容取决于 SBOM 的格式：
 
 * https://cyclonedx.org/specification/overview/[CycloneDX,window=_blank]

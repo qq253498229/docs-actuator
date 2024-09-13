@@ -1,17 +1,17 @@
-= Loggers (loggers)
+= 日志记录器 (loggers)
 
-The `loggers` endpoint provides access to the application’s loggers and the configuration of their levels.
+`loggers` 端点提供对应用程序日志记录器及其级别配置的访问。
 
-== Retrieving All Loggers
+== 检索所有日志记录器
 
-To retrieve the application’s loggers, make a `GET` request to `/actuator/loggers`, as shown in the following curl-based example:
+要检索应用程序的所有日志记录器，请发送 `GET` 请求到 `/actuator/loggers`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/loggers' -i -X GET
 ----
 
-The resulting response is similar to the following:
+得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -45,34 +45,33 @@ Content-Length: 791
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the application’s loggers.
-The following table describes the structure of the response:
+响应包含请求的日志记录器的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
 |Path|Type|Description
-|`levels`|`Array`|Levels support by the logging system.
-|`loggers`|`Object`|Loggers keyed by name.
-|`groups`|`Object`|Logger groups keyed by name
-|`loggers.*.configuredLevel`|`String`|Configured level of the logger, if any.
-|`loggers.*.effectiveLevel`|`String`|Effective level of the logger.
-|`groups.*.configuredLevel`|`String`|Configured level of the logger group, if any.
-|`groups.*.members`|`Array`|Loggers that are part of this group
+|`levels`|`Array`|日志系统支持的级别。
+|`loggers`|`Object`|按名称键入的日志记录器。
+|`groups`|`Object`|按名称键入的日志记录器组。
+|`loggers.*.configuredLevel`|`String`|日志记录器的配置级别（如果有）。
+|`loggers.*.effectiveLevel`|`String`|日志记录器的有效级别。
+|`groups.*.configuredLevel`|`String`|日志记录器组的配置级别（如果有）。
+|`groups.*.members`|`Array`|该组的日志记录器。
 |===
 
-== Retrieving a Single Logger
+== 检索单个日志记录器
 
-To retrieve a single logger, make a `GET` request to `pass:[/actuator/loggers/{logger.name}]`, as shown in the following curl-based example:
+要检索单个日志记录器，请发送 `GET` 请求到 `pass:[/actuator/loggers/{logger.name}]`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/loggers/com.example' -i -X GET
 ----
 
-The preceding example retrieves information about the logger named `com.example`.
 The resulting response is similar to the following:
+上述示例检索了名为 `com.example` 的日志记录器的信息。得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -86,29 +85,28 @@ Content-Length: 61
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the requested logger.
-The following table describes the structure of the response:
+响应包含请求的日志记录器的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`configuredLevel`|`String`|Configured level of the logger, if any.
-|`effectiveLevel`|`String`|Effective level of the logger.
+|路径|类型|描述
+|`configuredLevel`|`String`|日志记录器的配置级别（如果有）。
+|`effectiveLevel`|`String`|日志记录器的有效级别。
 |===
 
-== Retrieving a Single Group
+== 检索单个组
 
-To retrieve a single group, make a `GET` request to `pass:[/actuator/loggers/{group.name}]`, as shown in the following curl-based example:
+要检索单个组，请发送 `GET` 请求到 `pass:[/actuator/loggers/{group.name}]`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/loggers/test' -i -X GET
 ----
 
-The preceding example retrieves information about the logger group named `test`.
 The resulting response is similar to the following:
+上述示例检索了名为 `test` 的日志记录器组的信息。得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -121,21 +119,20 @@ Content-Length: 82
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the requested group.
-The following table describes the structure of the response:
+响应包含请求的组的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`configuredLevel`|`String`|Configured level of the logger group, if any.
-|`members`|`Array`|Loggers that are part of this group
+|路径|类型|描述
+|`configuredLevel`|`String`|日志记录器组的配置级别（如果有）。
+|`members`|`Array`|该组的日志记录器。
 |===
 
-== Setting a Log Level
+== 设置日志级别
 
-To set the level of a logger, make a `POST` request to `pass:[/actuator/loggers/{logger.name}]` with a JSON body that specifies the configured level for the logger, as shown in the following curl-based example:
+要设置日志记录器的级别，请发送 `POST` 请求到 `pass:[/actuator/loggers/{logger.name}]`，并附带一个 JSON 请求体，指定日志记录器的配置级别，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
@@ -144,22 +141,21 @@ curl 'http://localhost:8080/actuator/loggers/com.example' -i -X POST \
 -d '{"configuredLevel":"debug"}'
 ----
 
-The preceding example sets the `configuredLevel` of the `com.example` logger to `DEBUG`.
+上述示例将 `com.example` 日志记录器的 `configuredLevel` 设置为 `DEBUG`。
 
-=== Request Structure
+=== 请求结构
 
-The request specifies the desired level of the logger.
-The following table describes the structure of the request:
+请求指定了日志记录器的所需级别。下表描述了请求的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`configuredLevel`|`String`|Level for the logger. May be omitted to clear the level.
+|路径|类型|描述
+|`configuredLevel`|`String`|日志记录器的级别。可以省略以清除级别。
 |===
 
-== Setting a Log Level for a Group
+== 设置组的日志级别
 
-To set the level of a logger, make a `POST` request to `pass:[/actuator/loggers/{group.name}]` with a JSON body that specifies the configured level for the logger group, as shown in the following curl-based example:
+要设置日志记录器组的级别，请发送 `POST` 请求到 `pass:[/actuator/loggers/{group.name}]`，并附带一个 JSON 请求体，指定日志记录器组的配置级别，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
@@ -168,22 +164,21 @@ curl 'http://localhost:8080/actuator/loggers/test' -i -X POST \
 -d '{"configuredLevel":"debug"}'
 ----
 
-The preceding example sets the `configuredLevel` of the `test` logger group to `DEBUG`.
+上述示例将 `test` 日志记录器组的 `configuredLevel` 设置为 `DEBUG`。
 
-=== Request Structure
+=== 请求结构
 
-The request specifies the desired level of the logger group.
-The following table describes the structure of the request:
+请求指定了日志记录器组的所需级别。下表描述了请求的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`configuredLevel`|`String`|Level for the logger. May be omitted to clear the level.
+|路径|类型|描述
+|`configuredLevel`|`String`|日志记录器的级别。可以省略以清除级别。
 |===
 
-== Clearing a Log Level
+== 清除日志级别
 
-To clear the level of a logger, make a `POST` request to `pass:[/actuator/loggers/{logger.name}]` with a JSON body containing an empty object, as shown in the following curl-based example:
+要清除日志记录器的级别，请发送 `POST` 请求到 `pass:[/actuator/loggers/{logger.name}]`，并附带一个包含空对象的 JSON 请求体，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
@@ -192,4 +187,10 @@ $ curl 'http://localhost:8080/actuator/loggers/com.example' -i -X POST \
 -d '{}'
 ----
 
-The preceding example clears the configured level of the `com.example` logger.
+上述示例清除了 `com.example` 日志记录器的配置级别。
+
+
+
+
+
+

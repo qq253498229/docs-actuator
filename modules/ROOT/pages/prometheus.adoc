@@ -1,17 +1,17 @@
 = Prometheus (prometheus)
 
-The `prometheus` endpoint provides Spring Boot application’s metrics in the format required for scraping by a Prometheus server.
+`prometheus` 端点以 Prometheus 服务器抓取所需的格式提供 Spring Boot 应用程序的指标。
 
-== Retrieving All Metrics
+== 检索所有指标
 
-To retrieve all metrics, make a `GET` request to `/actuator/prometheus`, as shown in the following curl-based example:
+要检索所有指标，可以通过 `GET` 请求访问 `/actuator/prometheus`，以下是基于 curl 的示例：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/prometheus' -i -X GET
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -65,8 +65,7 @@ jvm_memory_used_bytes{area="nonheap",id="Compressed Class Space"} 1.176576E7
 jvm_memory_used_bytes{area="nonheap",id="Metaspace"} 8.7867568E7
 ----
 
-The default response content type is `text/plain;version=0.0.4`.
-The endpoint can also produce `application/openmetrics-text;version=1.0.0` when called with an appropriate `Accept` header, as shown in the following curl-based example:
+默认的响应内容类型是 `text/plain;version=0.0.4`。当使用适当的 `Accept` 头进行调用时，端点还可以生成 `application/openmetrics-text;version=1.0.0`，以下是基于 curl 的示例：
 
 [source,bash]
 ----
@@ -74,7 +73,7 @@ curl 'http://localhost:8080/actuator/prometheus' -i -X GET \
 -H 'Accept: application/openmetrics-text; version=1.0.0; charset=utf-8'
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -129,27 +128,26 @@ jvm_memory_used_bytes{area="nonheap",id="Metaspace"} 8.7831424E7
 # EOF
 ----
 
-=== Query Parameters
+=== 查询参数
 
-The endpoint uses query parameters to limit the samples that it returns.
-The following table shows the supported query parameters:
+端点使用查询参数来限制返回的样本。下表显示了支持的查询参数：
 
 [%autowidth]
 |===
-|Parameter|Description
-|`includedNames`|Restricts the samples to those that match the names. Optional.
+|参数|描述
+|`includedNames`|将样本限制为与名称匹配的样本。可选。
 |===
 
-== Retrieving Filtered Metrics
+== 检索过滤的指标
 
-To retrieve metrics matching specific names, make a `GET` request to `/actuator/prometheus` with the includedNames query parameter, as shown in the following curl-based example:
+要检索与特定名称匹配的指标，可以通过 `GET` 请求访问 `/actuator/prometheus`，并使用 includedNames 查询参数，以下是基于 curl 的示例：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/prometheus?includedNames=jvm_memory_used_bytes%2Cjvm_memory_committed_bytes' -i -X GET
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK

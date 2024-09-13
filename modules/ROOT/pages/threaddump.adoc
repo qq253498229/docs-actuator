@@ -1,10 +1,10 @@
-= Thread Dump (threaddump)
+= 线程转储 (threaddump)
 
-The `threaddump` endpoint provides a thread dump from the application’s JVM.
+`threaddump` 端点提供应用程序 JVM 的线程转储。
 
-== Retrieving the Thread Dump as JSON
+== 获取 JSON 格式的线程转储
 
-To retrieve the thread dump as JSON, make a `GET` request to `/actuator/threaddump` with an appropriate `Accept` header, as shown in the following curl-based example:
+要以 JSON 格式获取线程转储，可以按照以下基于 curl 的示例，使用适当的 `Accept` 头发送 `GET` 请求到 `/actuator/threaddump`：
 
 [source,bash]
 ----
@@ -12,60 +12,59 @@ curl 'http://localhost:8080/actuator/threaddump' -i -X GET \
 -H 'Accept: application/json'
 ----
 
-The resulting response is similar to the following:
+响应结果类似于以下内容：
 
 ----
 include::partial$threaddump1.txt[]
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the JVM’s threads.
-The following table describes the structure of the response:
+响应包含 JVM 线程的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`threads`|`Array`|JVM’s threads.
-|`threads.[].blockedCount`|`Number`|Total number of times that the thread has been blocked.
-|`threads.[].blockedTime`|`Number`|Time in milliseconds that the thread has spent blocked. -1 if thread contention monitoring is disabled.
-|`threads.[].daemon`|`Boolean`|Whether the thread is a daemon thread. Only available on Java 9 or later.
-|`threads.[].inNative`|`Boolean`|Whether the thread is executing native code.
-|`threads.[].lockName`|`String`|Description of the object on which the thread is blocked, if any.
-|`threads.[].lockInfo`|`Object`|Object for which the thread is blocked waiting.
-|`threads.[].lockInfo.className`|`String`|Fully qualified class name of the lock object.
-|`threads.[].lockInfo.identityHashCode`|`Number`|Identity hash code of the lock object.
-|`threads.[].lockedMonitors`|`Array`|Monitors locked by this thread, if any
-|`threads.[].lockedMonitors.[].className`|`String`|Class name of the lock object.
-|`threads.[].lockedMonitors.[].identityHashCode`|`Number`|Identity hash code of the lock object.
-|`threads.[].lockedMonitors.[].lockedStackDepth`|`Number`|Stack depth where the monitor was locked.
-|`threads.[].lockedMonitors.[].lockedStackFrame`|`Object`|Stack frame that locked the monitor.
-|`threads.[].lockedSynchronizers`|`Array`|Synchronizers locked by this thread.
-|`threads.[].lockedSynchronizers.[].className`|`String`|Class name of the locked synchronizer.
-|`threads.[].lockedSynchronizers.[].identityHashCode`|`Number`|Identity hash code of the locked synchronizer.
-|`threads.[].lockOwnerId`|`Number`|ID of the thread that owns the object on which the thread is blocked. `-1` if the thread is not blocked.
-|`threads.[].lockOwnerName`|`String`|Name of the thread that owns the object on which the thread is blocked, if any.
-|`threads.[].priority`|`Number`|Priority of the thread. Only available on Java 9 or later.
-|`threads.[].stackTrace`|`Array`|Stack trace of the thread.
-|`threads.[].stackTrace.[].classLoaderName`|`String`|Name of the class loader of the class that contains the execution point identified by this entry, if any. Only available on Java 9 or later.
-|`threads.[].stackTrace.[].className`|`String`|Name of the class that contains the execution point identified by this entry.
-|`threads.[].stackTrace.[].fileName`|`String`|Name of the source file that contains the execution point identified by this entry, if any.
-|`threads.[].stackTrace.[].lineNumber`|`Number`|Line number of the execution point identified by this entry. Negative if unknown.
-|`threads.[].stackTrace.[].methodName`|`String`|Name of the method.
-|`threads.[].stackTrace.[].moduleName`|`String`|Name of the module that contains the execution point identified by this entry, if any. Only available on Java 9 or later.
-|`threads.[].stackTrace.[].moduleVersion`|`String`|Version of the module that contains the execution point identified by this entry, if any. Only available on Java 9 or later.
-|`threads.[].stackTrace.[].nativeMethod`|`Boolean`|Whether the execution point is a native method.
-|`threads.[].suspended`|`Boolean`|Whether the thread is suspended.
-|`threads.[].threadId`|`Number`|ID of the thread.
-|`threads.[].threadName`|`String`|Name of the thread.
-|`threads.[].threadState`|`String`|State of the thread (`NEW`, `RUNNABLE`, `BLOCKED`, `WAITING`, `TIMED_WAITING`, `TERMINATED`).
-|`threads.[].waitedCount`|`Number`|Total number of times that the thread has waited for notification.
-|`threads.[].waitedTime`|`Number`|Time in milliseconds that the thread has spent waiting. -1 if thread contention monitoring is disabled
+|路径|类型|描述
+|`threads`|`Array`|JVM 的线程信息。
+|`threads.[].blockedCount`|`Number`|线程被阻塞的总次数。
+|`threads.[].blockedTime`|`Number`|线程被阻塞的时间（毫秒）。如果线程争用监视被禁用，则为 -1。
+|`threads.[].daemon`|`Boolean`|线程是否为守护线程（仅在 Java 9 或更高版本可用）。
+|`threads.[].inNative`|`Boolean`|线程是否正在执行本机代码。
+|`threads.[].lockName`|`String`|线程阻塞的对象描述（如果有）。
+|`threads.[].lockInfo`|`Object`|线程正在等待的阻塞对象。
+|`threads.[].lockInfo.className`|`String`|锁定对象的完全限定类名。
+|`threads.[].lockInfo.identityHashCode`|`Number`|锁定对象的标识哈希码。
+|`threads.[].lockedMonitors`|`Array`|线程锁定的监视器（如果有）。
+|`threads.[].lockedMonitors.[].className`|`String`|锁定对象的类名。
+|`threads.[].lockedMonitors.[].identityHashCode`|`Number`|锁定对象的标识哈希码。
+|`threads.[].lockedMonitors.[].lockedStackDepth`|`Number`|监视器被锁定的堆栈深度。
+|`threads.[].lockedMonitors.[].lockedStackFrame`|`Object`|锁定监视器的堆栈帧。
+|`threads.[].lockedSynchronizers`|`Array`|线程锁定的同步器。
+|`threads.[].lockedSynchronizers.[].className`|`String`|锁定同步器的类名。
+|`threads.[].lockedSynchronizers.[].identityHashCode`|`Number`|锁定同步器的标识哈希码。
+|`threads.[].lockOwnerId`|`Number`|阻塞线程的对象所属的线程 ID。如果线程未被阻塞，则为 `-1`。
+|`threads.[].lockOwnerName`|`String`|阻塞线程对象所属的线程名称（如果有）。
+|`threads.[].priority`|`Number`|线程的优先级（仅在 Java 9 或更高版本可用）。
+|`threads.[].stackTrace`|`Array`|线程的堆栈跟踪。
+|`threads.[].stackTrace.[].classLoaderName`|`String`|包含此条目所标识的执行点的类的类加载器名称（如果有，仅在 Java 9 或更高版本可用）。
+|`threads.[].stackTrace.[].className`|`String`|包含此条目所标识的执行点的类的名称。
+|`threads.[].stackTrace.[].fileName`|`String`|包含此条目所标识的执行点的源文件名称（如果有）。
+|`threads.[].stackTrace.[].lineNumber`|`Number`|此条目所标识的执行点的行号。如果未知则为负值。
+|`threads.[].stackTrace.[].methodName`|`String`|方法名称。
+|`threads.[].stackTrace.[].moduleName`|`String`|包含此条目所标识的执行点的模块名称（如果有，仅在 Java 9 或更高版本可用）。
+|`threads.[].stackTrace.[].moduleVersion`|`String`|包含此条目所标识的执行点的模块版本（如果有，仅在 Java 9 或更高版本可用）。
+|`threads.[].stackTrace.[].nativeMethod`|`Boolean`|执行点是否为本机方法。
+|`threads.[].suspended`|`Boolean`|线程是否被挂起。
+|`threads.[].threadId`|`Number`|线程 ID。
+|`threads.[].threadName`|`String`|线程名称。
+|`threads.[].threadState`|`String`|线程状态 (`NEW`, `RUNNABLE`, `BLOCKED`, `WAITING`, `TIMED_WAITING`, `TERMINATED`)。
+|`threads.[].waitedCount`|`Number`|线程等待通知的总次数。
+|`threads.[].waitedTime`|`Number`|线程等待的时间（毫秒）。如果线程争用监视被禁用，则为 -1。
 |===
 
-== Retrieving the Thread Dump as Text
+== 获取文本格式的线程转储
 
-To retrieve the thread dump as text, make a `GET` request to `/actuator/threaddump` that accepts `text/plain`, as shown in the following curl-based example:
+要以文本格式获取线程转储，可以按照以下基于 curl 的示例，发送一个接受 `text/plain` 的 `GET` 请求到 `/actuator/threaddump`：
 
 [source,bash]
 ----
@@ -73,7 +72,7 @@ curl 'http://localhost:8080/actuator/threaddump' -i -X GET \
 -H 'Accept: text/plain'
 ----
 
-The resulting response is similar to the following:
+响应结果类似于以下内容：
 
 ----
 include::partial$threaddump2.txt[]

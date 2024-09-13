@@ -1,17 +1,17 @@
 = Flyway (flyway)
 
-The `flyway` endpoint provides information about database migrations performed by Flyway.
+`flyway` 端点提供了关于由 Flyway 执行的数据库迁移的信息。
 
-== Retrieving the Migrations
+== 检索迁移
 
-To retrieve the migrations, make a `GET` request to `/actuator/flyway`, as shown in the following curl-based example:
+要检索迁移，可以按照以下基于 curl 的示例，向 `/actuator/flyway` 发起一个 `GET` 请求：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/flyway' -i -X GET
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -42,25 +42,24 @@ Content-Length: 516
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the application’s Flyway migrations.
-The following table describes the structure of the response:
+响应包含应用程序的 Flyway 迁移的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`contexts`|`Object`|Application contexts keyed by id
-|`pass:[contexts.*.flywayBeans.*.migrations]`|`Array`|Migrations performed by the Flyway instance, keyed by Flyway bean name.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].checksum]`|`Number`|Checksum of the migration, if any.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].description]`|`String`|Description of the migration, if any.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].executionTime]`|`Number`|Execution time in milliseconds of an applied migration.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].installedBy]`|`String`|User that installed the applied migration, if any.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].installedOn]`|`String`|Timestamp of when the applied migration was installed, if any.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].installedRank]`|`Number`|Rank of the applied migration, if any. Later migrations have higher ranks.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].script]`|`String`|Name of the script used to execute the migration, if any.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].state]`|`String`|State of the migration. (`PENDING`, `ABOVE_TARGET`, `BELOW_BASELINE`, `BASELINE_IGNORED`, `BASELINE`, `IGNORED`, `MISSING_SUCCESS`, `MISSING_FAILED`, `SUCCESS`, `UNDONE`, `AVAILABLE`, `FAILED`, `OUT_OF_ORDER`, `FUTURE_SUCCESS`, `FUTURE_FAILED`, `OUTDATED`, `SUPERSEDED`, `DELETED`)
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].type]`|`String`|Type of the migration.
-|`pass:[contexts.*.flywayBeans.*.migrations.[\].version]`|`String`|Version of the database after applying the migration, if any.
-|`contexts.*.parentId`|`String`|Id of the parent application context, if any.
+|路径|类型|描述
+|`contexts`|`Object`|以 ID 为键的应用程序上下文。
+|`pass:[contexts.*.flywayBeans.*.migrations]`|`Array`|以 Flyway bean 名称为键的 Flyway 实例执行的迁移。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].checksum]`|`Number`|迁移的校验和（如果有）。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].description]`|`String`|迁移的描述（如果有）。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].executionTime]`|`Number`|应用迁移的执行时间（毫秒）。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].installedBy]`|`String`|执行已应用迁移的用户（如果有）。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].installedOn]`|`String`|已应用迁移的安装时间戳（如果有）。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].installedRank]`|`Number`|已应用迁移的排名（如果有），后续迁移的排名较高。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].script]`|`String`|用于执行迁移的脚本名称（如果有）。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].state]`|`String`|迁移的状态。 (`PENDING`, `ABOVE_TARGET`, `BELOW_BASELINE`, `BASELINE_IGNORED`, `BASELINE`, `IGNORED`, `MISSING_SUCCESS`, `MISSING_FAILED`, `SUCCESS`, `UNDONE`, `AVAILABLE`, `FAILED`, `OUT_OF_ORDER`, `FUTURE_SUCCESS`, `FUTURE_FAILED`, `OUTDATED`, `SUPERSEDED`, `DELETED`)
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].type]`|`String`|迁移的类型。
+|`pass:[contexts.*.flywayBeans.*.migrations.[\].version]`|`String`|应用迁移后的数据库版本（如果有）。
+|`contexts.*.parentId`|`String`|父应用程序上下文的 ID（如果有）。
 |===

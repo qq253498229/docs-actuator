@@ -1,18 +1,17 @@
-= Sessions (sessions)
+= 会话 (sessions)
 
-The `sessions` endpoint provides information about the application’s HTTP sessions that are managed by Spring Session.
+`sessions` 端点提供有关由 Spring Session 管理的应用程序 HTTP 会话的信息。
 
-== Retrieving Sessions
+== 获取会话
 
-To retrieve the sessions, make a `GET` request to `/actuator/sessions`, as shown in the following curl-based example:
+要获取会话，可以按照以下基于 curl 的示例发送 `GET` 请求到 `/actuator/sessions`：
 
 [%autowidth]
 ----
 curl 'http://localhost:8080/actuator/sessions?username=alice' -i -X GET
 ----
 
-The preceding examples retrieves all of the sessions for the user whose username is `alice`.
-The resulting response is similar to the following:
+上述示例检索了用户名为 `alice` 的所有会话。响应结果类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -45,45 +44,42 @@ Content-Length: 789
 }
 ----
 
-=== Query Parameters
+=== 查询参数
 
-The endpoint uses query parameters to limit the sessions that it returns.
-The following table shows the single required query parameter:
-
-[%autowidth]
-|===
-|Parameter|Description
-|`username`|Name of the user.
-|===
-
-=== Response Structure
-
-The response contains details of the matching sessions.
-The following table describes the structure of the response:
+该端点使用查询参数来限制返回的会话。下表显示了唯一的必需查询参数：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`sessions`|`Array`|Sessions for the given username.
-|`sessions.[].id`|`String`|ID of the session.
-|`sessions.[].attributeNames`|`Array`|Names of the attributes stored in the session.
-|`sessions.[].creationTime`|`String`|Timestamp of when the session was created.
-|`sessions.[].lastAccessedTime`|`String`|Timestamp of when the session was last accessed.
-|`sessions.[].maxInactiveInterval`|`Number`|Maximum permitted period of inactivity, in seconds, before the session will expire.
-|`sessions.[].expired`|`Boolean`|Whether the session has expired.
+|参数|描述
+|`username`|用户名。
 |===
 
-== Retrieving a Single Session
+=== 响应结构
 
-To retrieve a single session, make a `GET` request to `pass:[/actuator/sessions/{id}]`, as shown in the following curl-based example:
+响应包含匹配会话的详细信息。下表描述了响应的结构：
+
+[%autowidth]
+|===
+|路径|类型|描述
+|`sessions`|`Array`|给定用户名的会话。
+|`sessions.[].id`|`String`|会话的 ID。
+|`sessions.[].attributeNames`|`Array`|存储在会话中的属性名称。
+|`sessions.[].creationTime`|`String`|会话创建的时间戳。
+|`sessions.[].lastAccessedTime`|`String`|会话最后一次访问的时间戳。
+|`sessions.[].maxInactiveInterval`|`Number`|会话在过期前允许的不活动的最长时间（以秒为单位）。
+|`sessions.[].expired`|`Boolean`|会话是否已过期。
+|===
+
+== 获取单个会话
+
+要获取单个会话，可以按照以下基于 curl 的示例发送 `GET` 请求到 `pass:[/actuator/sessions/{id}]`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/sessions/4db5efcc-99cb-4d05-a52c-b49acfbb7ea9' -i -X GET
 ----
 
-The preceding example retrieves the session with the `id` of `4db5efcc-99cb-4d05-a52c-b49acfbb7ea9`.
-The resulting response is similar to the following:
+上述示例检索了 `id` 为 `4db5efcc-99cb-4d05-a52c-b49acfbb7ea9` 的会话。响应结果类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -93,29 +89,28 @@ Content-Length: 208
 {"id":"4db5efcc-99cb-4d05-a52c-b49acfbb7ea9","attributeNames":[],"creationTime":"2024-08-22T11:50:32.636974764Z","lastAccessedTime":"2024-08-22T16:49:55.636978341Z","maxInactiveInterval":1800,"expired":false}
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the requested session.
-The following table describes the structure of the response:
+响应包含请求会话的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`id`|`String`|ID of the session.
-|`attributeNames`|`Array`|Names of the attributes stored in the session.
-|`creationTime`|`String`|Timestamp of when the session was created.
-|`lastAccessedTime`|`String`|Timestamp of when the session was last accessed.
-|`maxInactiveInterval`|`Number`|Maximum permitted period of inactivity, in seconds, before the session will expire.
-|`expired`|`Boolean`|Whether the session has expired.
+|路径|类型|描述
+|`id`|`String`|会话的 ID。
+|`attributeNames`|`Array`|存储在会话中的属性名称。
+|`creationTime`|`String`|会话创建的时间戳。
+|`lastAccessedTime`|`String`|会话最后一次访问的时间戳。
+|`maxInactiveInterval`|`Number`|会话在过期前允许的不活动的最长时间（以秒为单位）。
+|`expired`|`Boolean`|会话是否已过期。
 |===
 
-== Deleting a Session
+== 删除会话
 
-To delete a session, make a `DELETE` request to `pass:[/actuator/sessions/{id}]`, as shown in the following curl-based example:
+要删除会话，可以按照以下基于 curl 的示例发送 `DELETE` 请求到 `pass:[/actuator/sessions/{id}]`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/sessions/4db5efcc-99cb-4d05-a52c-b49acfbb7ea9' -i -X DELETE
 ----
 
-The preceding example deletes the session with the `id` of `4db5efcc-99cb-4d05-a52c-b49acfbb7ea9`.
+上述示例删除了 `id` 为 `4db5efcc-99cb-4d05-a52c-b49acfbb7ea9` 的会话。

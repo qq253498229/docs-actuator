@@ -1,21 +1,21 @@
-= Application Startup (startup)
+= 应用程序启动 (startup)
 
-The `startup` endpoint provides information about the application’s startup sequence.
+`startup` 端点提供有关应用程序启动顺序的信息。
 
-== Retrieving the Application Startup Steps
+== 获取应用程序启动步骤
 
-The application startup steps can either be retrieved as a snapshot (`GET`) or drained from the buffer (`POST`).
+应用程序启动步骤可以作为快照（`GET`）或从缓冲区中排出（`POST`）进行获取。
 
-=== Retrieving a snapshot of the Application Startup Steps
+=== 获取应用程序启动步骤的快照
 
-To retrieve the steps recorded so far during the application startup phase, make a `GET` request to `/actuator/startup`, as shown in the following curl-based example:
+要获取在应用程序启动阶段记录的步骤快照，可以按照以下基于 curl 的示例发送 `GET` 请求到 `/actuator/startup`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/startup' -i -X GET
 ----
 
-The resulting response is similar to the following:
+响应结果类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -56,16 +56,16 @@ Content-Length: 888
 }
 ----
 
-=== Draining the Application Startup Steps
+=== 排出应用程序启动步骤
 
-To drain and return the steps recorded so far during the application startup phase, make a `POST` request to `/actuator/startup`, as shown in the following curl-based example:
+要排出并返回应用程序启动阶段记录的步骤，可以按照以下基于 curl 的示例发送 `POST` 请求到 `/actuator/startup`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/startup' -i -X POST
 ----
 
-The resulting response is similar to the following:
+响应结果类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -106,24 +106,23 @@ Content-Length: 889
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the application startup steps.
-The following table describes the structure of the response:
+响应包含应用程序启动步骤的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`springBootVersion`|`String`|Spring Boot version for this application.
-|`timeline.startTime`|`String`|Start time of the application.
-|`timeline.events`|`Array`|An array of steps collected during application startup so far.
-|`timeline.events.[].startTime`|`String`|The timestamp of the start of this event.
-|`timeline.events.[].endTime`|`String`|The timestamp of the end of this event.
-|`timeline.events.[].duration`|`String`|The precise duration of this event.
-|`timeline.events.[].startupStep.name`|`String`|The name of the StartupStep.
-|`timeline.events.[].startupStep.id`|`Number`|The id of this StartupStep.
-|`timeline.events.[].startupStep.parentId`|`Number`|The parent id for this StartupStep.
-|`timeline.events.[].startupStep.tags`|`Array`|An array of key/value pairs with additional step info.
-|`timeline.events.[].startupStep.tags[].key`|`String`|The key of the StartupStep Tag.
-|`timeline.events.[].startupStep.tags[].value`|`String`|The value of the StartupStep Tag.
+|路径|类型|描述
+|`springBootVersion`|`String`|此应用程序的 Spring Boot 版本。
+|`timeline.startTime`|`String`|应用程序的启动时间。
+|`timeline.events`|`Array`|在应用程序启动过程中收集的步骤数组。
+|`timeline.events.[].startTime`|`String`|该事件开始的时间戳。
+|`timeline.events.[].endTime`|`String`|该事件结束的时间戳。
+|`timeline.events.[].duration`|`String`|该事件的精确持续时间。
+|`timeline.events.[].startupStep.name`|`String`|启动步骤的名称。
+|`timeline.events.[].startupStep.id`|`Number`|该启动步骤的 ID。
+|`timeline.events.[].startupStep.parentId`|`Number`|该启动步骤的父 ID。
+|`timeline.events.[].startupStep.tags`|`Array`|包含附加步骤信息的键/值对数组。
+|`timeline.events.[].startupStep.tags[].key`|`String`|启动步骤标签的键。
+|`timeline.events.[].startupStep.tags[].value`|`String`|启动步骤标签的值。
 |===

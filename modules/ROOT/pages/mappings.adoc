@@ -1,10 +1,10 @@
-= Mappings (mappings)
+= 映射 (mappings)
 
-The `mappings` endpoint provides information about the application’s request mappings.
+`mappings` 端点提供有关应用程序请求映射的信息。
 
-== Retrieving the Mappings
+== 检索映射
 
-To retrieve the mappings, make a `GET` request to `/actuator/mappings`, as shown in the following curl-based example:
+要检索映射，请发送 `GET` 请求到 `/actuator/mappings`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
@@ -14,7 +14,7 @@ curl 'http://localhost:38761/actuator/mappings' -i -X GET \
 -H 'accept: */*'
 ----
 
-The resulting response is similar to the following:
+得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -147,121 +147,115 @@ Content-Length: 5342
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the application’s mappings.
-The items found in the response depend on the type of web application (reactive or Servlet-based).
-The following table describes the structure of the common elements of the response:
+响应包含应用程序映射的详细信息。响应中找到的项目取决于 web 应用程序的类型（反应式或基于 Servlet）。下表描述了响应的通用元素的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`contexts`|`Object`|Application contexts keyed by id.
-|`contexts.*.mappings`|`Object`|Mappings in the context, keyed by mapping type.
-|`contexts.*.mappings.dispatcherServlets`|`Object`|Dispatcher servlet mappings, if any.
-|`contexts.*.mappings.servletFilters`|`Array`|Servlet filter mappings, if any.
-|`contexts.*.mappings.servlets`|`Array`|Servlet mappings, if any.
-|`contexts.*.mappings.dispatcherHandlers`|`Object`|Dispatcher handler mappings, if any.
-|`contexts.*.parentId`|`String`|Id of the parent application context, if any.
+|路径|类型|描述
+|`contexts`|`Object`|按 ID 键入的应用程序上下文。
+|`contexts.*.mappings`|`Object`|上下文中的映射，按映射类型键入。
+|`contexts.*.mappings.dispatcherServlets`|`Object`|DispatcherServlet 映射（如果有）。
+|`contexts.*.mappings.servletFilters`|`Array`|Servlet 过滤器映射（如果有）。
+|`contexts.*.mappings.servlets`|`Array`|Servlet 映射（如果有）。
+|`contexts.*.mappings.dispatcherHandlers`|`Object`|DispatcherHandler 映射（如果有）。
+|`contexts.*.parentId`|`String`|父应用程序上下文的 ID（如果有）。
 |===
 
-The entries that may be found in `contexts.*.mappings` are described in the following sections.
+以下是可能在 `contexts.*.mappings` 中找到的条目的描述。
 
-== Dispatcher Servlets Response Structure
+== Dispatcher Servlets 响应结构
 
-When using Spring MVC, the response contains details of any `DispatcherServlet` request mappings beneath `contexts.*.mappings.dispatcherServlets`.
-The following table describes the structure of this section of the response:
+在使用 Spring MVC 时，响应包含 `contexts.*.mappings.dispatcherServlets` 下的任何 `DispatcherServlet` 请求映射的详细信息。下表描述了该部分响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`*`|`Array`|Dispatcher servlet mappings, if any, keyed by dispatcher servlet bean name.
-|`*.[].details`|`Object`|Additional implementation-specific details about the mapping. Optional.
-|`*.[].handler`|`String`|Handler for the mapping.
-|`*.[].predicate`|`String`|Predicate for the mapping.
-|`*.[].details.handlerMethod`|`Object`|Details of the method, if any, that will handle requests to this mapping.
-|`*.[].details.handlerMethod.className`|`Varies`|Fully qualified name of the class of the method.
-|`*.[].details.handlerMethod.name`|`Varies`|Name of the method.
-|`*.[].details.handlerMethod.descriptor`|`Varies`|Descriptor of the method as specified in the Java Language Specification.
-|`*.[].details.requestMappingConditions`|`Object`|Details of the request mapping conditions.
-|`*.[].details.requestMappingConditions.consumes`|`Varies`|Details of the consumes condition
-|`*.[].details.requestMappingConditions.consumes.[].mediaType`|`Varies`|Consumed media type.
-|`*.[].details.requestMappingConditions.consumes.[].negated`|`Varies`|Whether the media type is negated.
-|`*.[].details.requestMappingConditions.headers`|`Varies`|Details of the headers condition.
-|`*.[].details.requestMappingConditions.headers.[].name`|`Varies`|Name of the header.
-|`*.[].details.requestMappingConditions.headers.[].value`|`Varies`|Required value of the header, if any.
-|`*.[].details.requestMappingConditions.headers.[].negated`|`Varies`|Whether the value is negated.
-|`*.[].details.requestMappingConditions.methods`|`Varies`|HTTP methods that are handled.
-|`*.[].details.requestMappingConditions.params`|`Varies`|Details of the params condition.
-|`*.[].details.requestMappingConditions.params.[].name`|`Varies`|Name of the parameter.
-|`*.[].details.requestMappingConditions.params.[].value`|`Varies`|Required value of the parameter, if any.
-|`*.[].details.requestMappingConditions.params.[].negated`|`Varies`|Whether the value is negated.
-|`*.[].details.requestMappingConditions.patterns`|`Varies`|Patterns identifying the paths handled by the mapping.
-|`*.[].details.requestMappingConditions.produces`|`Varies`|Details of the produces condition.
-|`*.[].details.requestMappingConditions.produces.[].mediaType`|`Varies`|Produced media type.
-|`*.[].details.requestMappingConditions.produces.[].negated`|`Varies`|Whether the media type is negated.
+|路径|类型|描述
+|`*`|`Array`|DispatcherServlet 映射（如果有），按 DispatcherServlet bean 名称键入。
+|`*.[].details`|`Object`|有关映射的其他实现特定的详细信息。可选。
+|`*.[].handler`|`String`|映射的处理程序。
+|`*.[].predicate`|`String`|映射的谓词。
+|`*.[].details.handlerMethod`|`Object`|处理此映射请求的方法的详细信息（如果有）。
+|`*.[].details.handlerMethod.className`|`Varies`|方法的完全限定名称。
+|`*.[].details.handlerMethod.name`|`Varies`|方法的名称。
+|`*.[].details.handlerMethod.descriptor`|`Varies`|按照 Java 语言规范指定的方法描述符。
+|`*.[].details.requestMappingConditions`|`Object`|请求映射条件的详细信息。
+|`*.[].details.requestMappingConditions.consumes`|`Varies`|consumes 条件的详细信息。
+|`*.[].details.requestMappingConditions.consumes.[].mediaType`|`Varies`|消耗的媒体类型。
+|`*.[].details.requestMappingConditions.consumes.[].negated`|`Varies`|媒体类型是否被否定。
+|`*.[].details.requestMappingConditions.headers`|`Varies`|headers 条件的详细信息。
+|`*.[].details.requestMappingConditions.headers.[].name`|`Varies`|头的名称。
+|`*.[].details.requestMappingConditions.headers.[].value`|`Varies`|头的必需值（如果有）。
+|`*.[].details.requestMappingConditions.headers.[].negated`|`Varies`|值是否被否定。
+|`*.[].details.requestMappingConditions.methods`|`Varies`|处理的 HTTP 方法。
+|`*.[].details.requestMappingConditions.params`|`Varies`|params 条件的详细信息。
+|`*.[].details.requestMappingConditions.params.[].name`|`Varies`|参数的名称。
+|`*.[].details.requestMappingConditions.params.[].value`|`Varies`|参数的必需值（如果有）。
+|`*.[].details.requestMappingConditions.params.[].negated`|`Varies`|值是否被否定。
+|`*.[].details.requestMappingConditions.patterns`|`Varies`|识别映射处理路径的模式。
+|`*.[].details.requestMappingConditions.produces`|`Varies`|produces 条件的详细信息。
+|`*.[].details.requestMappingConditions.produces.[].mediaType`|`Varies`|生成的媒体类型。
+|`*.[].details.requestMappingConditions.produces.[].negated`|`Varies`|媒体类型是否被否定。
 |===
 
-== Servlets Response Structure
+== Servlets 响应结构
 
-When using the Servlet stack, the response contains details of any `Servlet` mappings beneath `contexts.*.mappings.servlets`.
-The following table describes the structure of this section of the response:
+在使用 `Servlet` 堆栈时，响应包含 `contexts.*.mappings.servlets` 下的任何 Servlet 映射的详细信息。下表描述了该部分响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`[].mappings`|`Array`|Mappings of the servlet.
-|`[].name`|`String`|Name of the servlet.
-|`[].className`|`String`|Class name of the servlet
+|路径|类型|描述
+|`[].mappings`|`Array`|Servlet 的映射。
+|`[].name`|`String`|Servlet 的名称。
+|`[].className`|`String`|Servlet 的类名。
 |===
 
-== Servlet Filters Response Structure
+== Servlet Filters 响应结构
 
-When using the Servlet stack, the response contains details of any `Filter` mappings beneath `contexts.*.mappings.servletFilters`.
-The following table describes the structure of this section of the response:
+在使用 Servlet 堆栈时，响应包含 `contexts.*.mappings.servletFilters` 下的任何 `Filter` 映射的详细信息。下表描述了该部分响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`[].servletNameMappings`|`Array`|Names of the servlets to which the filter is mapped.
-|`[].urlPatternMappings`|`Array`|URL pattern to which the filter is mapped.
-|`[].name`|`String`|Name of the filter.
-|`[].className`|`String`|Class name of the filter
+|路径|类型|描述
+|`[].servletNameMappings`|`Array`|过滤器映射的 Servlet 名称。
+|`[].urlPatternMappings`|`Array`|过滤器映射的 URL 模式。
+|`[].name`|`String`|过滤器的名称。
+|`[].className`|`String`|过滤器的类名。
 |===
 
-== Dispatcher Handlers Response Structure
+== Dispatcher Handlers 响应结构
 
-When using Spring WebFlux, the response contains details of any `DispatcherHandler` request mappings beneath `contexts.*.mappings.dispatcherHandlers`.
-The following table describes the structure of this section of the response:
+在使用 Spring WebFlux 时，响应包含 `contexts.*.mappings.dispatcherHandlers` 下的任何 `DispatcherHandler` 请求映射的详细信息。下表描述了该部分响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`*`|`Array`|Dispatcher handler mappings, if any, keyed by dispatcher handler bean name.
-|`*.[].details`|`Object`|Additional implementation-specific details about the mapping. Optional.
-|`*.[].handler`|`String`|Handler for the mapping.
-|`*.[].predicate`|`String`|Predicate for the mapping.
-|`*.[].details.requestMappingConditions`|`Object`|Details of the request mapping conditions.
-|`*.[].details.requestMappingConditions.consumes`|`Varies`|Details of the consumes condition
-|`*.[].details.requestMappingConditions.consumes.[].mediaType`|`Varies`|Consumed media type.
-|`*.[].details.requestMappingConditions.consumes.[].negated`|`Varies`|Whether the media type is negated.
-|`*.[].details.requestMappingConditions.headers`|`Varies`|Details of the headers condition.
-|`*.[].details.requestMappingConditions.headers.[].name`|`Varies`|Name of the header.
-|`*.[].details.requestMappingConditions.headers.[].value`|`Varies`|Required value of the header, if any.
-|`*.[].details.requestMappingConditions.headers.[].negated`|`Varies`|Whether the value is negated.
-|`*.[].details.requestMappingConditions.methods`|`Varies`|HTTP methods that are handled.
-|`*.[].details.requestMappingConditions.params`|`Varies`|Details of the params condition.
-|`*.[].details.requestMappingConditions.params.[].name`|`Varies`|Name of the parameter.
-|`*.[].details.requestMappingConditions.params.[].value`|`Varies`|Required value of the parameter, if any.
-|`*.[].details.requestMappingConditions.params.[].negated`|`Varies`|Whether the value is negated.
-|`*.[].details.requestMappingConditions.patterns`|`Varies`|Patterns identifying the paths handled by the mapping.
-|`*.[].details.requestMappingConditions.produces`|`Varies`|Details of the produces condition.
-|`*.[].details.requestMappingConditions.produces.[].mediaType`|`Varies`|Produced media type.
-|`*.[].details.requestMappingConditions.produces.[].negated`|`Varies`|Whether the media type is negated.
-|`*.[].details.handlerMethod`|`Object`|Details of the method, if any, that will handle requests to this mapping.
-|`*.[].details.handlerMethod.className`|`String`|Fully qualified name of the class of the method.
-|`*.[].details.handlerMethod.name`|`String`|Name of the method.
-|`*.[].details.handlerMethod.descriptor`|`String`|Descriptor of the method as specified in the Java Language Specification.
-|`*.[].details.handlerFunction`|`Object`|Details of the function, if any, that will handle requests to this mapping.
-|`*.[].details.handlerFunction.className`|`String`|Fully qualified name of the class of the function.
+|路径|类型|描述
+|`*`|`Array`|DispatcherHandler 映射（如果有），按 DispatcherHandler bean 名称键入。
+|`*.[].details`|`Object`|有关映射的其他实现特定的详细信息。可选。
+|`*.[].handler`|`String`|映射的处理程序。
+|`*.[].predicate`|`String`|映射的谓词。
+|`*.[].details.requestMappingConditions`|`Object`|请求映射条件的详细信息。
+|`*.[].details.requestMappingConditions.consumes`|`Varies`|consumes 条件的详细信息。
+|`*.[].details.requestMappingConditions.consumes.[].mediaType`|`Varies`|消耗的媒体类型。
+|`*.[].details.requestMappingConditions.consumes.[].negated`|`Varies`|媒体类型是否被否定。
+|`*.[].details.requestMappingConditions.headers`|`Varies`|headers 条件的详细信息。
+|`*.[].details.requestMappingConditions.headers.[].name`|`Varies`|头的名称。
+|`*.[].details.requestMappingConditions.headers.[].value`|`Varies`|头的必需值（如果有）。
+|`*.[].details.requestMappingConditions.headers.[].negated`|`Varies`|值是否被否定。
+|`*.[].details.requestMappingConditions.methods`|`Varies`|处理的 HTTP 方法。
+|`*.[].details.requestMappingConditions.params`|`Varies`|params 条件的详细信息。
+|`*.[].details.requestMappingConditions.params.[].name`|`Varies`|参数的名称。
+|`*.[].details.requestMappingConditions.params.[].value`|`Varies`|参数的必需值（如果有）。
+|`*.[].details.requestMappingConditions.params.[].negated`|`Varies`|值是否被否定。
+|`*.[].details.requestMappingConditions.patterns`|`Varies`|识别映射处理路径的模式。
+|`*.[].details.requestMappingConditions.produces`|`Varies`|produces 条件的详细信息。
+|`*.[].details.requestMappingConditions.produces.[].mediaType`|`Varies`|生成的媒体类型。
+|`*.[].details.requestMappingConditions.produces.[].negated`|`Varies`|媒体类型是否被否定。
+|`*.[].details.handlerMethod`|`Object`|处理此映射请求的方法的详细信息（如果有）。
+|`*.[].details.handlerMethod.className`|`String`|方法的完全限定名称。
+|`*.[].details.handlerMethod.name`|`String`|方法的名称。
+|`*.[].details.handlerMethod.descriptor`|`String`|按照 Java 语言规范指定的方法描述符。
+|`*.[].details.handlerFunction`|`Object`|处理此映射请求的函数的详细信息（如果有）。
+|`*.[].details.handlerFunction.className`|`String`|函数的完全限定名称。
 |===

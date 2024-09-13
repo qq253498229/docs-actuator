@@ -1,17 +1,17 @@
-= Metrics (metrics)
+= 指标 (metrics)
 
-The `metrics` endpoint provides access to application metrics.
+`metrics` 端点提供应用程序指标的访问。
 
-== Retrieving Metric Names
+== 检索指标名称
 
-To retrieve the names of the available metrics, make a `GET` request to `/actuator/metrics`, as shown in the following curl-based example:
+要检索可用指标的名称，可以通过 `GET` 请求访问 `/actuator/metrics`，以下是基于 curl 的示例：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/metrics' -i -X GET
 ----
 
-The resulting response is similar to the following:
+返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -23,28 +23,26 @@ Content-Length: 154
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the metric names.
-The following table describes the structure of the response:
+响应包含指标名称的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`names`|`Array`|Names of the known metrics.
+|路径|类型|描述
+|`names`|`Array`|已知指标的名称。
 |===
 
-== Retrieving a Metric
+== 检索指标
 
-To retrieve a metric, make a `GET` request to `pass:[/actuator/metrics/{metric.name}]`, as shown in the following curl-based example:
+要检索某个指标，可以通过 `GET` 请求访问 `pass:[/actuator/metrics/{metric.name}]`，以下是基于 curl 的示例：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/metrics/jvm.memory.max' -i -X GET
 ----
 
-The preceding example retrieves information about the metric named `jvm.memory.max`.
-The resulting response is similar to the following:
+上述示例检索了名为 `jvm.memory.max` 的指标的信息。返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -70,48 +68,45 @@ Content-Length: 555
 }
 ----
 
-=== Query Parameters
+=== 查询参数
 
-The endpoint uses query parameters to <<drilling-down,drill down>> into a metric by using its tags.
-The following table shows the single supported query parameter:
+端点使用查询参数通过其标签 <<drilling-down,深入分析>> 指标。下表显示了唯一支持的查询参数：
 
 [%autowidth]
 |===
 |Parameter|Description
-|`tag`|A tag to use for drill-down in the form `name:value`.
+|`tag`|用于深入分析的标签，格式为 `name:value`。
 |===
 
-=== Response Structure
+=== 响应结构
 
-The response contains details of the metric.
-The following table describes the structure of the response:
+响应包含指标的详细信息。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`name`|`String`|Name of the metric
-|`description`|`String`|Description of the metric
-|`baseUnit`|`String`|Base unit of the metric
-|`measurements`|`Array`|Measurements of the metric
-|`measurements[].statistic`|`String`|Statistic of the measurement. (`TOTAL`, `TOTAL_TIME`, `COUNT`, `MAX`, `VALUE`, `UNKNOWN`, `ACTIVE_TASKS`, `DURATION`).
-|`measurements[].value`|`Number`|Value of the measurement.
-|`availableTags`|`Array`|Tags that are available for drill-down.
-|`availableTags[].tag`|`String`|Name of the tag.
-|`availableTags[].values`|`Array`|Possible values of the tag.
+|路径|类型|描述
+|`name`|`String`|指标的名称
+|`description`|`String`|指标的描述
+|`baseUnit`|`String`|指标的基本单位
+|`measurements`|`Array`|指标的测量值
+|`measurements[].statistic`|`String`|测量的统计数据。 (`TOTAL`, `TOTAL_TIME`, `COUNT`, `MAX`, `VALUE`, `UNKNOWN`, `ACTIVE_TASKS`, `DURATION`).
+|`measurements[].value`|`Number`|测量值。
+|`availableTags`|`Array`|可用于深入分析的标签。
+|`availableTags[].tag`|`String`|标签的名称。
+|`availableTags[].values`|`Array`|标签的可能值。
 |===
 
 [[drilling-down]]
-== Drilling Down
+== 深入分析
 
-To drill down into a metric, make a `GET` request to `pass:[/actuator/metrics/{metric.name}]` using the tag query parameter, as shown in the following curl-based example:
+要深入分析某个指标，可以通过 `GET` 请求访问 `pass:[/actuator/metrics/{metric.name}]`，并使用标签查询参数，以下是基于 curl 的示例：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/metrics/jvm.memory.max?tag=area%3Anonheap&tag=id%3ACompressed+Class+Space' -i -X GET
 ----
 
-The preceding example retrieves the `jvm.memory.max` metric, where the `area` tag has a value of `nonheap` and the `id` attribute has a value of `Compressed Class Space`.
-The resulting response is similar to the following:
+上述示例检索了 `jvm.memory.max` 指标，其中 `area` 标签的值为 `nonheap`，`id` 属性的值为 `Compressed Class Space`。返回的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK

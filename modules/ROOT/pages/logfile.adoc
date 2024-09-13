@@ -1,17 +1,17 @@
-= Log File (logfile)
+= 日志文件 (logfile)
 
-The `logfile` endpoint provides access to the contents of the application’s log file.
+`logfile` 端点提供对应用程序日志文件内容的访问。
 
-== Retrieving the Log File
+== 检索日志文件
 
-To retrieve the log file, make a `GET` request to `/actuator/logfile`, as shown in the following curl-based example:
+要检索日志文件，请发送 `GET` 请求到 `/actuator/logfile`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/logfile' -i -X GET
 ----
 
-The resulting response is similar to the following:
+得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -52,11 +52,11 @@ Content-Length: 4707
 2017-08-08 17:12:32.750  INFO 19866 --- [           main] s.f.SampleWebFreeMarkerApplication       : Started SampleWebFreeMarkerApplication in 2.172 seconds (JVM running for 2.479)
 ----
 
-== Retrieving Part of the Log File
+== 检索日志文件的一部分
 
-NOTE: Retrieving part of the log file is not supported when using Jersey.
+NOTE: 使用 Jersey 时不支持检索日志文件的一部分。
 
-To retrieve part of the log file, make a `GET` request to `/actuator/logfile` by using the `Range` header, as shown in the following curl-based example:
+要检索日志文件的一部分，请使用 `Range` 头发送 `GET` 请求到 `/actuator/logfile`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
@@ -64,8 +64,7 @@ curl 'http://localhost:8080/actuator/logfile' -i -X GET \
 -H 'Range: bytes=0-1023'
 ----
 
-The preceding example retrieves the first 1024 bytes of the log file.
-The resulting response is similar to the following:
+上述示例检索了日志文件的前 1024 字节。得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 206 Partial Content

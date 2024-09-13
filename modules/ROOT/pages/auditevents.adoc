@@ -1,18 +1,17 @@
-= Audit Events (auditevents)
+= 审计事件 (auditevents)
 
-The auditevents endpoint provides information about the application’s audit events.
+审计事件端点提供了有关应用程序审计事件的信息。
 
-== Retrieving Audit Events
+== 检索审计事件
 
-To retrieve the audit events, make a `GET` request to `/actuator/auditevents`, as shown in the following curl-based example:
+要检索审计事件，请向 `/actuator/auditevents` 发送 `GET` 请求，如下所示的基于 curl 的示例：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/auditevents?principal=alice&after=2024-08-22T16%3A49%3A59.642365836Z&type=logout' -i -X GET
 ----
 
-The preceding example retrieves `logout` events for the principal, `alice`, that occurred after 09:37 on 7 November 2017 in the UTC timezone.
-The resulting response is similar to the following:
+上述示例检索了在 2017 年 11 月 7 日 UTC 时区 09:37 之后发生的，针对主体 `alice` 的 `logout` 事件。 得到的响应类似于以下内容：
 
 [source]
 ----
@@ -29,29 +28,27 @@ Content-Length: 127
 }
 ----
 
-=== Query Parameters
+=== 查询参数
 
-The endpoint uses query parameters to limit the events that it returns.
-The following table shows the supported query parameters:
-
-[%autowidth]
-|===
-|Parameter|Description
-|`after`|Restricts the events to those that occurred after the given time. Optional.
-|`principal`|Restricts the events to those with the given principal. Optional.
-|`type`|Restricts the events to those with the given type. Optional.
-|===
-
-=== Response Structure
-
-The response contains details of all of the audit events that matched the query.
-The following table describes the structure of the response:
+端点使用查询参数来限制它返回的事件。 下表显示了支持的查询参数：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`events`|`Array`|An array of audit events.
-|`events.[].timestamp`|`String`|The timestamp of when the event occurred.
-|`events.[].principal`|`String`|The principal that triggered the event.
-|`events.[].type`|`String`|The type of the event.
+|参数|描述
+|`after`|限制返回给定时间之后发生的事件。可选。
+|`principal`|限制返回给定主体的事件。可选。
+|`type`|限制返回给定类型的事件。可选。
+|===
+
+=== 响应结构
+
+响应包含所有符合查询条件的审计事件的详细信息。下表描述了响应的结构：
+
+[%autowidth]
+|===
+|路径|类型|描述
+|`events`|`Array`|一个审计事件的数组。
+|`events.[].timestamp`|`String`|事件发生的时间戳。
+|`events.[].principal`|`String`|触发该事件的主体。
+|`events.[].type`|`String`|事件的类型。
 |===

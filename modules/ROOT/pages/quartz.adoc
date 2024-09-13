@@ -1,18 +1,17 @@
 = Quartz (quartz)
 
-The `quartz` endpoint provides information about jobs and triggers that are managed by the Quartz Scheduler.
+`quartz` 端点提供有关由 Quartz 调度器管理的任务和触发器的信息。
 
-== Retrieving Registered Groups
+== 获取已注册的组
 
-Jobs and triggers are managed in groups.
-To retrieve the list of registered job and trigger groups, make a `GET` request to `/actuator/quartz`, as shown in the following curl-based example:
+任务和触发器被管理在组中。要获取已注册的任务和触发器组的列表，可以按照以下基于 curl 的示例发送 `GET` 请求到 `/actuator/quartz`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/quartz' -i -X GET
 ----
 
-The resulting response is similar to the following:
+结果响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -29,28 +28,27 @@ Content-Length: 120
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains the groups names for registered jobs and triggers.
-The following table describes the structure of the response:
+响应包含已注册任务和触发器的组名。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`jobs.groups`|`Array`|An array of job group names.
-|`triggers.groups`|`Array`|An array of trigger group names.
+|路径|类型|描述
+|`jobs.groups`|`Array`|一个任务组名的数组。
+|`triggers.groups`|`Array`|一个触发器组名的数组。
 |===
 
-== Retrieving Registered Job Names
+== 获取已注册任务名称
 
-To retrieve the list of registered job names, make a `GET` request to `/actuator/quartz/jobs`, as shown in the following curl-based example:
+要获取已注册任务名称的列表，可以按照以下基于 curl 的示例发送 `GET` 请求到 `/actuator/quartz/jobs`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/quartz/jobs' -i -X GET
 ----
 
-The resulting response is similar to the following:
+结果响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -69,28 +67,27 @@ Content-Length: 137
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains the registered job names for each group.
-The following table describes the structure of the response:
+响应包含每个组的已注册任务名称。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`groups`|`Object`|Job groups keyed by name.
-|`groups.*.jobs`|`Array`|An array of job names.
+|路径|类型|描述
+|`groups`|`Object`|以名称为键的任务组。
+|`groups.*.jobs`|`Array`|任务名称的数组。
 |===
 
-== Retrieving Registered Trigger Names
+== 获取已注册触发器名称
 
-To retrieve the list of registered trigger names, make a `GET` request to `/actuator/quartz/triggers`, as shown in the following curl-based example:
+要获取已注册触发器名称的列表，可以按照以下基于 curl 的示例发送 `GET` 请求到 `/actuator/quartz/triggers`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/quartz/triggers' -i -X GET
 ----
 
-The resulting response is similar to the following:
+结果响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -111,30 +108,28 @@ Content-Length: 229
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains the registered trigger names for each group.
-The following table describes the structure of the response:
+响应包含每个组的已注册触发器名称。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`groups`|`Object`|Trigger groups keyed by name.
-|`groups.*.paused`|`Boolean`|Whether this trigger group is paused.
-|`groups.*.triggers`|`Array`|An array of trigger names.
+|路径|类型|描述
+|`groups`|`Object`|以名称为键的触发器组。
+|`groups.*.paused`|`Boolean`|该触发器组是否已暂停。
+|`groups.*.triggers`|`Array`|触发器名称的数组。
 |===
 
-== Retrieving Overview of a Job Group
+== 获取任务组概览
 
-To retrieve an overview of the jobs in a particular group, make a `GET` request to `pass:[/actuator/quartz/jobs/{groupName}]`, as shown in the following curl-based example:
+要获取特定组中任务的概览，可以按照以下基于 curl 的示例发送 `GET` 请求到 `pass:[/actuator/quartz/jobs/{groupName}]`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/quartz/jobs/samples' -i -X GET
 ----
 
-The preceding example retrieves the summary for jobs in the `samples` group.
-The resulting response is similar to the following:
+上述示例获取了 `samples` 组中任务的摘要。结果响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -154,30 +149,28 @@ Content-Length: 201
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains an overview of jobs in a particular group.
-The following table describes the structure of the response:
+响应包含特定组中任务的概览。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`group`|`String`|Name of the group.
-|`jobs`|`Object`|Job details keyed by name.
-|`jobs.*.className`|`String`|Fully qualified name of the job implementation.
+|路径|类型|描述
+|`group`|`String`|组的名称。
+|`jobs`|`Object`|以名称为键的任务详细信息。
+|`jobs.*.className`|`String`|任务实现的完全限定名称。
 |===
 
-== Retrieving Overview of a Trigger Group
+== 获取触发器组概览
 
-To retrieve an overview of the triggers in a particular group, make a `GET` request to `pass:[/actuator/quartz/triggers/{groupName}]`, as shown in the following curl-based example:
+要获取特定组中触发器的概览，可以按照以下基于 curl 的示例发送 `GET` 请求到 `pass:[/actuator/quartz/triggers/{groupName}]`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/quartz/triggers/tests' -i -X GET
 ----
 
-The preceding example retrieves the summary for triggers in the `tests` group.
-The resulting response is similar to the following:
+上述示例获取了 `tests` 组中触发器的摘要。结果响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -234,60 +227,57 @@ Content-Length: 1268
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains an overview of triggers in a particular group.
-Trigger implementation specific details are available.
-The following table describes the structure of the response:
+响应包含特定组中触发器的概览。提供了触发器实现的具体细节。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`group`|`String`|Name of the group.
-|`paused`|`Boolean`|Whether the group is paused.
-|`triggers.cron`|`Object`|Cron triggers keyed by name, if any.
-|`triggers.simple`|`Object`|Simple triggers keyed by name, if any.
-|`triggers.dailyTimeInterval`|`Object`|Daily time interval triggers keyed by name, if any.
-|`triggers.calendarInterval`|`Object`|Calendar interval triggers keyed by name, if any.
-|`triggers.custom`|`Object`|Any other triggers keyed by name, if any.
-|`triggers.cron.*.previousFireTime`|`String`|Last time the trigger fired, if any.
-|`triggers.cron.*.nextFireTime`|`String`|Next time at which the Trigger is scheduled to fire, if any.
-|`triggers.cron.*.priority`|`Number`|Priority to use if two triggers have the same scheduled fire time.
-|`triggers.cron.*.expression`|`String`|Cron expression to use.
-|`triggers.cron.*.timeZone`|`String`|Time zone for which the expression will be resolved, if any.
-|`triggers.simple.*.previousFireTime`|`String`|Last time the trigger fired, if any.
-|`triggers.simple.*.nextFireTime`|`String`|Next time at which the Trigger is scheduled to fire, if any.
-|`triggers.simple.*.priority`|`Number`|Priority to use if two triggers have the same scheduled fire time.
-|`triggers.simple.*.interval`|`Number`|Interval, in milliseconds, between two executions.
-|`triggers.dailyTimeInterval.*.previousFireTime`|`String`|Last time the trigger fired, if any.
-|`triggers.dailyTimeInterval.*.nextFireTime`|`String`|Next time at which the Trigger is scheduled to fire, if any.
-|`triggers.dailyTimeInterval.*.priority`|`Number`|Priority to use if two triggers have the same scheduled fire time.
-|`triggers.dailyTimeInterval.*.interval`|`Number`|Interval, in milliseconds, added to the fire time in order to calculate the time of the next trigger repeat.
-|`triggers.dailyTimeInterval.*.daysOfWeek`|`Array`|An array of days of the week upon which to fire.
-|`triggers.dailyTimeInterval.*.startTimeOfDay`|`String`|Time of day to start firing at the given interval, if any.
-|`triggers.dailyTimeInterval.*.endTimeOfDay`|`String`|Time of day to complete firing at the given interval, if any.
-|`triggers.calendarInterval.*.previousFireTime`|`String`|Last time the trigger fired, if any.
-|`triggers.calendarInterval.*.nextFireTime`|`String`|Next time at which the Trigger is scheduled to fire, if any.
-|`triggers.calendarInterval.*.priority`|`Number`|Priority to use if two triggers have the same scheduled fire time.
-|`triggers.calendarInterval.*.interval`|`Number`|Interval, in milliseconds, added to the fire time in order to calculate the time of the next trigger repeat.
-|`triggers.calendarInterval.*.timeZone`|`String`|Time zone within which time calculations will be performed, if any.
-|`triggers.custom.*.previousFireTime`|`String`|Last time the trigger fired, if any.
-|`triggers.custom.*.nextFireTime`|`String`|Next time at which the Trigger is scheduled to fire, if any.
-|`triggers.custom.*.priority`|`Number`|Priority to use if two triggers have the same scheduled fire time.
-|`triggers.custom.*.trigger`|`String`|A toString representation of the custom trigger instance.
+|路径|类型|描述
+|`group`|`String`|组的名称。
+|`paused`|`Boolean`|该组是否已暂停。
+|`triggers.cron`|`Object`|以名称为键的 Cron 触发器（如果有）。
+|`triggers.simple`|`Object`|以名称为键的简单触发器（如果有）。
+|`triggers.dailyTimeInterval`|`Object`|以名称为键的每日时间间隔触发器（如果有）。
+|`triggers.calendarInterval`|`Object`|以名称为键的日历间隔触发器（如果有）。
+|`triggers.custom`|`Object`|以名称为键的其他触发器（如果有）。
+|`triggers.cron.*.previousFireTime`|`String`|触发器上次触发的时间（如果有）。
+|`triggers.cron.*.nextFireTime`|`String`|触发器计划下一次触发的时间（如果有）。
+|`triggers.cron.*.priority`|`Number`|如果两个触发器具有相同的计划触发时间，则使用的优先级。
+|`triggers.cron.*.expression`|`String`|使用的 Cron 表达式。
+|`triggers.cron.*.timeZone`|`String`|解析表达式的时区（如果有）。
+|`triggers.simple.*.previousFireTime`|`String`|触发器上次触发的时间（如果有）。
+|`triggers.simple.*.nextFireTime`|`String`|触发器计划下一次触发的时间（如果有）。
+|`triggers.simple.*.priority`|`Number`|如果两个触发器具有相同的计划触发时间，则使用的优先级。
+|`triggers.simple.*.interval`|`Number`|两次执行之间的间隔（以毫秒为单位）。
+|`triggers.dailyTimeInterval.*.previousFireTime`|`String`|触发器上次触发的时间（如果有）。
+|`triggers.dailyTimeInterval.*.nextFireTime`|`String`|触发器计划下一次触发的时间（如果有）。
+|`triggers.dailyTimeInterval.*.priority`|`Number`|如果两个触发器具有相同的计划触发时间，则使用的优先级。
+|`triggers.dailyTimeInterval.*.interval`|`Number`|加到触发时间以计算下一个触发器重复时间的间隔（以毫秒为单位）。
+|`triggers.dailyTimeInterval.*.daysOfWeek`|`Array`|在每周的哪些天触发的数组。
+|`triggers.dailyTimeInterval.*.startTimeOfDay`|`String`|以给定间隔开始触发的时间（如果有）。
+|`triggers.dailyTimeInterval.*.endTimeOfDay`|`String`|以给定间隔完成触发的时间（如果有）。
+|`triggers.calendarInterval.*.previousFireTime`|`String`|触发器上次触发的时间（如果有）。
+|`triggers.calendarInterval.*.nextFireTime`|`String`|触发器计划下一次触发的时间（如果有）。
+|`triggers.calendarInterval.*.priority`|`Number`|如果两个触发器具有相同的计划触发时间，则使用的优先级。
+|`triggers.calendarInterval.*.interval`|`Number`|加到触发时间以计算下一个触发器重复时间的间隔（以毫秒为单位）。
+|`triggers.calendarInterval.*.timeZone`|`String`|进行时间计算的时区（如果有）。
+|`triggers.custom.*.previousFireTime`|`String`|触发器上次触发的时间（如果有）。
+|`triggers.custom.*.nextFireTime`|`String`|触发器计划下一次触发的时间（如果有）。
+|`triggers.custom.*.priority`|`Number`|如果两个触发器具有相同的计划触发时间，则使用的优先级。
+|`triggers.custom.*.trigger`|`String`|自定义触发器实例的 toString 表示。
 |===
 
-== Retrieving Details of a Job
+== 获取任务详情
 
-To retrieve the details about a particular job, make a `GET` request to `pass:[/actuator/quartz/jobs/{groupName}/{jobName}]`, as shown in the following curl-based example:
+要获取特定任务的详细信息，可以按照以下基于 curl 的示例发送 `GET` 请求到 `pass:[/actuator/quartz/jobs/{groupName}/{jobName}]`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/quartz/jobs/samples/jobOne' -i -X GET
 ----
 
-The preceding example retrieves the details of the job identified by the `samples` group and `jobOne` name.
-The resulting response is similar to the following:
+上述示例获取了 `samples` 组和 `jobOne` 名称标识的任务的详细信息。结果响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -320,84 +310,80 @@ Content-Length: 609
 }
 ----
 
-If a key in the data map is identified as sensitive, its value is sanitized.
+如果数据映射中的某个键被标识为敏感信息，其值将会被清理。
 
-=== Response Structure
+=== 响应结构
 
-The response contains the full details of a job including a summary of the triggers associated with it, if any.
-The triggers are sorted by next fire time and priority.
-The following table describes the structure of the response:
+响应包含任务的完整详细信息，包括与之相关的触发器摘要（如果有）。触发器按下次触发时间和优先级排序。下表描述了响应的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`group`|`String`|Name of the group.
-|`name`|`String`|Name of the job.
-|`description`|`String`|Description of the job, if any.
-|`className`|`String`|Fully qualified name of the job implementation.
-|`durable`|`Boolean`|Whether the job should remain stored after it is orphaned.
-|`requestRecovery`|`Boolean`|Whether the job should be re-executed if a 'recovery' or 'fail-over' situation is encountered.
-|`data.*`|`String`|Job data map as key/value pairs, if any.
-|`triggers`|`Array`|An array of triggers associated to the job, if any.
-|`triggers.[].group`|`String`|Name of the trigger group.
-|`triggers.[].name`|`String`|Name of the trigger.
-|`triggers.[].previousFireTime`|`String`|Last time the trigger fired, if any.
-|`triggers.[].nextFireTime`|`String`|Next time at which the Trigger is scheduled to fire, if any.
-|`triggers.[].priority`|`Number`|Priority to use if two triggers have the same scheduled fire time.
+|路径|类型|描述
+|`group`|`String`|组的名称。
+|`name`|`String`|任务的名称。
+|`description`|`String`|任务的描述（如果有）。
+|`className`|`String`|任务实现的完全限定名称。
+|`durable`|`Boolean`|任务在孤立后是否应继续存储。
+|`requestRecovery`|`Boolean`|在遇到“恢复”或“故障转移”情况时，任务是否应重新执行。
+|`data.*`|`String`|任务数据映射（key/value对，如果有）。
+|`triggers`|`Array`|与任务相关的触发器数组（如果有）。
+|`triggers.[].group`|`String`|触发器组的名称。
+|`triggers.[].name`|`String`|触发器的名称。
+|`triggers.[].previousFireTime`|`String`|触发器上次触发的时间（如果有）。
+|`triggers.[].nextFireTime`|`String`|触发器计划下一次触发的时间（如果有）。
+|`triggers.[].priority`|`Number`|如果两个触发器具有相同的计划触发时间，则使用的优先级。
 |===
 
-== Retrieving Details of a Trigger
+== 获取触发器详情
 
-To retrieve the details about a particular trigger, make a `GET` request to `pass:[/actuator/quartz/triggers/{groupName}/{triggerName}]`, as shown in the following curl-based example:
+要获取特定触发器的详细信息，可以按照以下基于 curl 的示例发送 `GET` 请求到 `pass:[/actuator/quartz/triggers/{groupName}/{triggerName}]`：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/quartz/triggers/samples/example' -i -X GET
 ----
 
-The preceding example retrieves the details of trigger identified by the `samples` group and `example` name.
+上述示例获取了由 `samples` 组和 `example` 名称标识的触发器的详细信息。
 
 [[common-response-structure]]
-=== Common Response Structure
+=== 通用响应结构
 
-The response has a common structure and an additional object that is specific to the trigger’s type.
-There are five supported types:
+响应具有通用结构以及一个特定于触发器类型的额外对象。支持以下五种类型：
 
-* `cron` for `CronTrigger`
-* `simple` for `SimpleTrigger`
-* `dailyTimeInterval` for `DailyTimeIntervalTrigger`
-* `calendarInterval` for `CalendarIntervalTrigger`
-* `custom` for any other trigger implementations
+* `cron` 表示 `CronTrigger`
+* `simple` 表示 `SimpleTrigger`
+* `dailyTimeInterval` 表示 `DailyTimeIntervalTrigger`
+* `calendarInterval` 表示 `CalendarIntervalTrigger`
+* `custom` 表示其他触发器实现
 
-The following table describes the structure of the common elements of the response:
+下表描述了响应中通用元素的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`group`|`String`|Name of the group.
-|`name`|`String`|Name of the trigger.
-|`description`|`String`|Description of the trigger, if any.
-|`state`|`String`|State of the trigger (`NONE`, `NORMAL`, `PAUSED`, `COMPLETE`, `ERROR`, `BLOCKED`).
-|`type`|`String`|Type of the trigger (`calendarInterval`, `cron`, `custom`, `dailyTimeInterval`, `simple`). Determines the key of the object containing type-specific details.
-|`calendarName`|`String`|Name of the Calendar associated with this Trigger, if any.
-|`startTime`|`String`|Time at which the Trigger should take effect, if any.
-|`endTime`|`String`|Time at which the Trigger should quit repeating, regardless of any remaining repeats, if any.
-|`previousFireTime`|`String`|Last time the trigger fired, if any.
-|`nextFireTime`|`String`|Next time at which the Trigger is scheduled to fire, if any.
-|`priority`|`Number`|Priority to use if two triggers have the same scheduled fire time.
-|`finalFireTime`|`String`|Last time at which the Trigger will fire, if any.
-|`data`|`Object`|Job data map keyed by name, if any.
-|`calendarInterval`|`Object`|Calendar time interval trigger details, if any. Present when type is calendarInterval.
-|`custom`|`Object`|Custom trigger details, if any. Present when type is custom.
-|`cron`|`Object`|Cron trigger details, if any. Present when type is cron.
-|`dailyTimeInterval`|`Object`|Daily time interval trigger details, if any. Present when type is dailyTimeInterval.
-|`simple`|`Object`|Simple trigger details, if any. Present when type is simple.
+|路径|类型|描述
+|`group`|`String`|组的名称。
+|`name`|`String`|触发器的名称。
+|`description`|`String`|触发器的描述（如果有）。
+|`state`|`String`|触发器的状态 (`NONE`, `NORMAL`, `PAUSED`, `COMPLETE`, `ERROR`, `BLOCKED`)。
+|`type`|`String`|触发器的类型 (`calendarInterval`, `cron`, `custom`, `dailyTimeInterval`, `simple`)。该类型决定包含类型特定详细信息的对象的键。
+|`calendarName`|`String`|与此触发器关联的日历名称（如果有）。
+|`startTime`|`String`|触发器应生效的时间（如果有）。
+|`endTime`|`String`|触发器应停止重复的时间（无论是否有剩余的重复次数）（如果有）。
+|`previousFireTime`|`String`|触发器上次触发的时间（如果有）。
+|`nextFireTime`|`String`|触发器计划下一次触发的时间（如果有）。
+|`priority`|`Number`|如果两个触发器具有相同的计划触发时间，则使用的优先级。
+|`finalFireTime`|`String`|触发器最后一次触发的时间（如果有）。
+|`data`|`Object`|任务数据映射（以名称为键，如果有）。
+|`calendarInterval`|`Object`|日历时间间隔触发器的详细信息（如果有，且类型为 calendarInterval）。
+|`custom`|`Object`|自定义触发器的详细信息（如果有，且类型为 custom）。
+|`cron`|`Object`|Cron 触发器的详细信息（如果有，且类型为 cron）。
+|`dailyTimeInterval`|`Object`|每日时间间隔触发器的详细信息（如果有，且类型为 dailyTimeInterval）。
+|`simple`|`Object`|简单触发器的详细信息（如果有，且类型为 simple）。
 |===
 
-=== Cron Trigger Response Structure
+=== Cron 触发器响应结构
 
-A cron trigger defines the cron expression that is used to determine when it has to fire.
-The resulting response for such a trigger implementation is similar to the following:
+Cron 触发器定义了用于确定触发时间的 cron 表达式。此类触发器的响应示例如下：
 
 ----
 HTTP/1.1 200 OK
@@ -424,22 +410,19 @@ Content-Length: 490
 }
 ----
 
-Much of the response is common to all trigger types.
-The structure of the common elements of the response was <<common-response-structure,described previously>>.
-The following table describes the structure of the parts of the response that are specific to cron triggers:
+大部分响应对所有触发器类型都是通用的。<<common-response-structure,前面已描述了>> 通用元素的结构。下表描述了与 cron 触发器相关的响应部分的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`cron`|`Object`|Cron trigger specific details.
-|`cron.expression`|`String`|Cron expression to use.
-|`cron.timeZone`|`String`|Time zone for which the expression will be resolved, if any.
+|路径|类型|描述
+|`cron`|`Object`|Cron 触发器的特定详细信息。
+|`cron.expression`|`String`|使用的 Cron 表达式。
+|`cron.timeZone`|`String`|用于解析表达式的时区（如果有）。
 |===
 
-=== Simple Trigger Response Structure
+=== 简单触发器响应结构
 
-A simple trigger is used to fire a Job at a given moment in time, and optionally repeated at a specified interval.
-The resulting response for such a trigger implementation is similar to the following:
+简单触发器用于在指定时间触发任务，并可选择在指定的时间间隔重复触发。此类触发器的响应示例如下：
 
 ----
 HTTP/1.1 200 OK
@@ -468,23 +451,20 @@ Content-Length: 549
 }
 ----
 
-Much of the response is common to all trigger types.
-The structure of the common elements of the response was <<common-response-structure,described previously>>.
-The following table describes the structure of the parts of the response that are specific to simple triggers:
+大部分响应对所有触发器类型都是通用的。<<common-response-structure,前面已描述了>> 通用元素的结构。下表描述了与简单触发器相关的响应部分的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`simple`|`Object`|Simple trigger specific details.
-|`simple.interval`|`Number`|Interval, in milliseconds, between two executions.
-|`simple.repeatCount`|`Number`|Number of times the trigger should repeat, or -1 to repeat indefinitely.
-|`simple.timesTriggered`|`Number`|Number of times the trigger has already fired.
+|路径|类型|描述
+|`simple`|`Object`|简单触发器的特定详细信息。
+|`simple.interval`|`Number`|两次执行之间的间隔（以毫秒为单位）。
+|`simple.repeatCount`|`Number`|触发器应重复的次数，或 -1 表示无限重复。
+|`simple.timesTriggered`|`Number`|触发器已触发的次数。
 |===
 
-=== Daily Time Interval Trigger Response Structure
+=== 每日时间间隔触发器响应结构
 
-A daily time interval trigger is used to fire a Job based upon daily repeating time intervals.
-The resulting response for such a trigger implementation is similar to the following:
+每日时间间隔触发器用于基于每日重复时间间隔触发任务。此类触发器的响应示例如下：
 
 ----
 HTTP/1.1 200 OK
@@ -516,26 +496,23 @@ Content-Length: 667
 }
 ----
 
-Much of the response is common to all trigger types.
-The structure of the common elements of the response was <<common-response-structure,described previously>>.
-The following table describes the structure of the parts of the response that are specific to daily time interval triggers:
+大部分响应对所有触发器类型都是通用的。<<common-response-structure,前面已描述了>> 通用元素的结构。下表描述了与每日时间间隔触发器相关的响应部分的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`dailyTimeInterval`|`Object`|Daily time interval trigger specific details.
-|`dailyTimeInterval.interval`|`Number`|Interval, in milliseconds, added to the fire time in order to calculate the time of the next trigger repeat.
-|`dailyTimeInterval.daysOfWeek`|`Array`|An array of days of the week upon which to fire.
-|`dailyTimeInterval.startTimeOfDay`|`String`|Time of day to start firing at the given interval, if any.
-|`dailyTimeInterval.endTimeOfDay`|`String`|Time of day to complete firing at the given interval, if any.
-|`dailyTimeInterval.repeatCount`|`Number`|Number of times the trigger should repeat, or -1 to repeat indefinitely.
-|`dailyTimeInterval.timesTriggered`|`Number`|Number of times the trigger has already fired.
+|路径|类型|描述
+|`dailyTimeInterval`|`Object`|每日时间间隔触发器的特定详细信息。
+|`dailyTimeInterval.interval`|`Number`|加到触发时间以计算下一个触发器重复时间的间隔（以毫秒为单位）。
+|`dailyTimeInterval.daysOfWeek`|`Array`|一周中触发的天数数组。
+|`dailyTimeInterval.startTimeOfDay`|`String`|在给定间隔开始触发的时间（如果有）。
+|`dailyTimeInterval.endTimeOfDay`|`String`|在给定间隔完成触发的时间（如果有）。
+|`dailyTimeInterval.repeatCount`|`Number`|触发器应重复的次数，或 -1 表示无限重复。
+|`dailyTimeInterval.timesTriggered`|`Number`|触发器已触发的次数。
 |===
 
-=== Calendar Interval Trigger Response Structure
+=== 日历间隔触发器响应结构
 
-A calendar interval trigger is used to fire a Job based upon repeating calendar time intervals.
-The resulting response for such a trigger implementation is similar to the following:
+日历间隔触发器用于基于重复的日历时间间隔触发任务。此类触发器的响应示例如下：
 
 ----
 HTTP/1.1 200 OK
@@ -566,25 +543,22 @@ Content-Length: 669
 }
 ----
 
-Much of the response is common to all trigger types.
-The structure of the common elements of the response was <<common-response-structure,described previously>>.
-The following table describes the structure of the parts of the response that are specific to calendar interval triggers:
+大部分响应对所有触发器类型都是通用的。<<common-response-structure,前面已描述了>> 通用元素的结构。下表描述了与日历间隔触发器相关的响应部分的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`calendarInterval`|`Object`|Calendar interval trigger specific details.
-|`calendarInterval.interval`|`Number`|Interval, in milliseconds, added to the fire time in order to calculate the time of the next trigger repeat.
-|`calendarInterval.timeZone`|`String`|Time zone within which time calculations will be performed, if any.
-|`calendarInterval.timesTriggered`|`Number`|Number of times the trigger has already fired.
-|`calendarInterval.preserveHourOfDayAcrossDaylightSavings`|`Boolean`|Whether to fire the trigger at the same time of day, regardless of daylight saving time transitions.
-|`calendarInterval.skipDayIfHourDoesNotExist`|`Boolean`|Whether to skip if the hour of the day does not exist on a given day.
+|路径|类型|描述
+|`calendarInterval`|`Object`|日历间隔触发器的特定详细信息。
+|`calendarInterval.interval`|`Number`|加到触发时间以计算下一个触发器重复时间的间隔（以毫秒为单位）。
+|`calendarInterval.timeZone`|`String`|执行时间计算的时区（如果有）。
+|`calendarInterval.timesTriggered`|`Number`|触发器已触发的次数。
+|`calendarInterval.preserveHourOfDayAcrossDaylightSavings`|`Boolean`|无论夏令时转换如何，是否在同一时间触发。
+|`calendarInterval.skipDayIfHourDoesNotExist`|`Boolean`|如果某天中某个小时不存在，是否跳过。
 |===
 
-=== Custom Trigger Response Structure
+=== 自定义触发器响应结构
 
-A custom trigger is any other implementation.
-The resulting response for such a trigger implementation is similar to the following:
+自定义触发器是其他实现的触发器。此类触发器的响应示例如下：
 
 ----
 HTTP/1.1 200 OK
@@ -609,13 +583,11 @@ Content-Length: 457
 }
 ----
 
-Much of the response is common to all trigger types.
-The structure of the common elements of the response was <<common-response-structure,described previously>>.
-The following table describes the structure of the parts of the response that are specific to custom triggers:
+大部分响应对所有触发器类型都是通用的。<<common-response-structure,前面已描述了>> 通用元素的结构。下表描述了与自定义触发器相关的响应部分的结构：
 
 [%autowidth]
 |===
-|Path|Type|Description
-|`custom`|`Object`|Custom trigger specific details.
-|`custom.trigger`|`String`|A toString representation of the custom trigger instance.
+|路径|类型|描述
+|`custom`|`Object`|自定义触发器的特定详细信息。
+|`custom.trigger`|`String`|自定义触发器实例的 toString 表示。
 |===

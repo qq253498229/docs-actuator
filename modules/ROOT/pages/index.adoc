@@ -1,29 +1,27 @@
 = Actuator REST API
 
-This API documentation describes Spring Boot Actuators web endpoints.
+这份 API 文档描述了 Spring Boot Actuators 的 Web 端点。
 
-Before you proceed, you should read the following topics:
+在您继续之前，您应该阅读以下主题：
 
 * <<urls,URLs>>
 * <<timestamps,Timestamps>>
 
-NOTE: In order to get the correct JSON responses documented below, Jackson must be available.
+NOTE: 为了获得下面记录的正确 JSON 响应，Jackson 必须可用。
 
 [[urls]]
 == URLs
 
-By default, all web endpoints are available beneath the path `/actuator` with URLs of the form `pass:[/actuator/{id}]`.
-The `/actuator` base path can be configured by using the `management.endpoints.web.base-path` property, as shown in the following example:
+默认情况下，所有 Web 端点都位于 `/actuator` 路径下，URL 形式为 `pass:[/actuator/{id}]`。 可以通过使用 `management.endpoints.web.base-path` 属性来配置 `/actuator` 基本路径，如下例所示：
 
 [source]
 ----
 management.endpoints.web.base-path=/manage
 ----
 
-The preceding `application.properties` example changes the form of the endpoint URLs from `pass:[/actuator/{id}]` to `pass:[/manage/{id}]`.
-For example, the URL `info` endpoint would become `/manage/info`.
+上述 `application.properties` 示例将端点 URL 的形式从 `pass:[/actuator/{id}]` 更改为 `pass:[/manage/{id}]`。 例如，`info` 端点的 URL 将变为 `/manage/info`。
 
 [[timestamps]]
 == Timestamps
 
-All timestamps that are consumed by the endpoints, either as query parameters or in the request body, must be formatted as an offset date and time as specified in https://en.wikipedia.org/wiki/ISO_8601[ISO 8601,window=_blank].
+所有端点消费的时间戳，无论是作为查询参数还是请求体中，都必须按照 https://en.wikipedia.org/wiki/ISO_8601[ISO 8601,window=_blank] 规范格式化为带偏移量的日期和时间。

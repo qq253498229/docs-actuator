@@ -1,17 +1,17 @@
 = Spring Integration Graph (integrationgraph)
 
-The `integrationgraph` endpoint exposes a graph containing all Spring Integration components.
+`integrationgraph` 端点暴露了包含所有 Spring Integration 组件的图。
 
-== Retrieving the Spring Integration Graph
+== 检索 Spring Integration Graph
 
-To retrieve the information about the application, make a `GET` request to `/actuator/integrationgraph`, as shown in the following curl-based example:
+要检索应用程序的相关信息，请发送 `GET` 请求到 `/actuator/integrationgraph`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/integrationgraph' -i -X GET
 ----
 
-The resulting response is similar to the following:
+得到的响应类似于以下内容：
 
 ----
 HTTP/1.1 200 OK
@@ -58,21 +58,20 @@ Content-Length: 1033
 }
 ----
 
-=== Response Structure
+=== 响应结构
 
-The response contains all Spring Integration components used within the application, as well as the links between them.
-More information about the structure can be found in the https://docs.spring.io/spring-integration/reference/6.3/graph.html[reference documentation].
+响应包含应用程序中使用的所有 Spring Integration 组件以及它们之间的链接。有关结构的更多信息可以在 https://docs.spring.io/spring-integration/reference/6.3/graph.html[参考文档] 中找到。
 
-== Rebuilding the Spring Integration Graph
+== 重建 Spring Integration Graph
 
-To rebuild the exposed graph, make a `POST` request to `/actuator/integrationgraph`, as shown in the following curl-based example:
+要重建暴露的图，请发送 `POST` 请求到 `/actuator/integrationgraph`，如下基于 curl 的示例所示：
 
 [source,bash]
 ----
 curl 'http://localhost:8080/actuator/integrationgraph' -i -X POST
 ----
 
-This will result in a `204 - No Content` response:
+这将返回 `204 - No Content` 响应。
 
 ----
 HTTP/1.1 204 No Content
