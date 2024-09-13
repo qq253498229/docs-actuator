@@ -4,7 +4,7 @@
 
 == 检索 Heap Dump
 
-要检索堆转储，请发送 `GET` 请求到 `/actuator/heapdump`。响应是二进制数据，可能会很大。其格式取决于应用程序运行的 JVM。当运行在 HotSpot JVM 上时，格式为 https://docs.oracle.com/javase/8/docs/technotes/samples/hprof.html[HPROF]；在 OpenJ9 上时，格式为 https://www.eclipse.org/openj9/docs/dump_heapdump/#portable-heap-dump-phd-format[PHD]。通常，你应该将响应保存到磁盘以供后续分析。当使用 curl 时，可以通过使用 -O 选项来实现，如下示例所示：
+要检索堆转储，请发送 `GET` 请求到 `/actuator/heapdump`。响应是二进制数据，可能会很大。其格式取决于应用程序运行的 JVM。当运行在 HotSpot JVM 上时，格式为 https://docs.oracle.com/javase/8/docs/technotes/samples/hprof.html[HPROF,window=_blank]；在 OpenJ9 上时，格式为 https://www.eclipse.org/openj9/docs/dump_heapdump/#portable-heap-dump-phd-format[PHD,window=_blank]。通常，你应该将响应保存到磁盘以供后续分析。当使用 curl 时，可以通过使用 -O 选项来实现，如下示例所示：
 
 [source,bash]
 ----

@@ -60,7 +60,7 @@ Content-Length: 1033
 
 === 响应结构
 
-响应包含应用程序中使用的所有 Spring Integration 组件以及它们之间的链接。有关结构的更多信息可以在 https://docs.spring.io/spring-integration/reference/6.3/graph.html[参考文档] 中找到。
+响应包含应用程序中使用的所有 Spring Integration 组件以及它们之间的链接。有关结构的更多信息可以在 https://docs.spring.io/spring-integration/reference/6.3/graph.html[参考文档,window=_blank] 中找到。
 
 == 重建 Spring Integration Graph
 
